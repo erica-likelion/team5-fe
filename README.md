@@ -1,6 +1,11 @@
-# team5-frontend 
+# 서비스명: 
+> 서비스 설명
+>
 
-## Getting started
+## 프로젝트 설명
+
+## 설치 및 진행
+> 해커톤 주제: AI로 다시 뛰는 우리 동네
 
 1. install package dependencies
 
@@ -33,7 +38,7 @@
 
 ```
 
-## Commit convention
+## Commit 메세지
 ```
 feat: 새로운 기능 추가
 

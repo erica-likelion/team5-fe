@@ -3,9 +3,10 @@
 >
 
 ## 프로젝트 설명
+> 해커톤 주제: AI로 다시 뛰는 우리 동네
 
 ## 설치 및 진행
-> 해커톤 주제: AI로 다시 뛰는 우리 동네
+
 
 1. install package dependencies
 

@@ -7,6 +7,8 @@ export const LayoutContainer = styled.div`
   background: #f6f7f9;
   padding-top: 49px;
   padding-bottom: 49px;
+  padding-left: 22px;
+  padding-right: 22px;
   margin: 0 auto;       /* 가로 가운데 정렬 */
   overflow: auto;
 `;

@@ -1,8 +1,9 @@
 // RankingPage.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ScoreBar from "@components/ranking/ScoreBar";
 import RankingButtons, { type RankingType } from "@components/ranking/OptionButton";
+import { personalTiers, calculateTierAndRemaining } from '@utils/TierLogic';
 import profileImg from "@assets/common/profile-pic.svg";
 import * as S from "./RankingPage.style";
 
@@ -19,6 +20,7 @@ type UserInfo = {
 export function RankingPage() {
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [selectedRanking, setSelectedRanking] = useState<RankingType>('individual');
   const [rankingData, setRankingData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,9 +32,6 @@ export function RankingPage() {
       setSelectedRanking(option);
   };
 
-  const RANK_LABELS = ['씨앗 ', '새싹 ', '떡잎 ', '어린나무 ', '숲 ', '울창한 숲 '] as const;
-  const idx = Math.max(0, Math.min(RANK_LABELS.length - 1, (Number(userInfo?.rank) || 1) - 1));
-  const tierText = RANK_LABELS[idx];
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -47,7 +46,7 @@ export function RankingPage() {
         setUserInfo({
           id: data.id,
           name: data.name,
-          points: Number(data.points ?? 0),
+          points: Number(data.pointsTotal ?? 0),
           rank: Number(data.level ?? 0),
           campus: data.campus ?? "",
           college: data.college ?? "",
@@ -60,70 +59,73 @@ export function RankingPage() {
   }, [API_BASE_URL]);
 
   useEffect(() => {
-  const fetchRankingData = async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      let url = '';
-      switch (selectedRanking) {
-        case 'campus':
-          url = `${API_BASE_URL}/api/rankings/campus/top?limit=30`;
-          break;
-        case 'department':
-          url = `${API_BASE_URL}/api/rankings/college/top?limit=30`;
-          break;
-        case 'individual':
-        default:
-          url = `${API_BASE_URL}/api/rankings/individual/top?limit=30`;
-      }
-
-      const res = await axios.get(url);
-      const rows = res?.data?.data?.rankings ?? [];
-
-      // 공통 형태로 정규화
-      const normalized = rows.map((r: any) => {
-        if (selectedRanking === 'campus') {
-          return {
-            userName: r?.campus ?? '',
-            points: Number(r?.score ?? 0),
-            rank: Number(r?.rank ?? 0),
-            school: r?.campus ?? '',
-            department: ''
-          };
-        } else if (selectedRanking === 'department') {
-          return {
-            userName: r?.college ?? '',
-            points: Number(r?.points ?? r?.score ?? 0),
-            rank: Number(r?.rank ?? 0),
-            school: r?.campus ?? '',
-            department: r?.college ?? ''
-          };
-        } else {
-          // individual
-          return {
-            userName: r?.name ?? r?.username ?? '',
-            points: Number(r?.points ?? r?.score ?? 0),
-            rank: Number(r?.rank ?? 0),
-            school: r?.campus ?? '',
-            department: r?.college ?? ''
-          };
+    const fetchRankingData = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        let url = '';
+        switch (selectedRanking) {
+          case 'campus':
+            url = `${API_BASE_URL}/api/rankings/campus/top?limit=30`;
+            break;
+          case 'department':
+            url = `${API_BASE_URL}/api/rankings/college/top?limit=30`;
+            break;
+          case 'individual':
+          default:
+            url = `${API_BASE_URL}/api/rankings/individual/top?limit=30`;
         }
-      });
 
-      setRankingData(normalized); // <— 여기서부터는 항상 동일 구조
-    } catch (e) {
-      console.error(e);
-      setError('랭킹 데이터를 가져오는 데 실패했습니다.');
-      setRankingData([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+        const res = await axios.get(url);
+        const rows = res?.data?.data?.rankings ?? [];
 
-  fetchRankingData();
-}, [selectedRanking, API_BASE_URL]); // selectedRanking이 변경될 때마다 데이터를 다시 가져옵니다.
+        // 공통 형태로 정규화
+        const normalized = rows.map((r: any) => {
+          if (selectedRanking === 'campus') {
+            return {
+              userName: r?.campus ?? '',
+              points: Number(r?.accumulatedTotal ?? 0),
+              rank: Number(r?.rank ?? 0),
+              school: r?.campus ?? '',
+              department: ''
+            };
+          } else if (selectedRanking === 'department') {
+            return {
+              userName: r?.college ?? '',
+              points: Number(r?.accumulatedTotal ?? 0),
+              rank: Number(r?.rank ?? 0),
+              school: r?.campus ?? '',
+              department: r?.college ?? ''
+            };
+          } else {
+            // individual
+            return {
+              userName: r?.name ?? r?.username ?? '',
+              points: Number(r?.accumulatedTotal ?? 0),
+              rank: Number(r?.rank ?? 0),
+              school: r?.campus ?? '',
+              department: r?.college ?? ''
+            };
+          }
+        });
+
+        setRankingData(normalized); // <— 여기서부터는 항상 동일 구조
+      } catch (e) {
+        console.error(e);
+        setError('랭킹 데이터를 가져오는 데 실패했습니다.');
+        setRankingData([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRankingData();
+  }, [selectedRanking, API_BASE_URL]); // selectedRanking이 변경될 때마다 데이터를 다시 가져옵니다.
 
     
+    const myPoints = Number(userInfo?.points ?? 0);
+    const { currentTier, remainingPoints } = useMemo(() => {return calculateTierAndRemaining(myPoints, personalTiers);}, [myPoints]);
+  
 
     return (
       <div>
@@ -132,7 +134,7 @@ export function RankingPage() {
             <S.ProfileSection>
               <S.ProfileImage src={profileImg} alt="Profile" />
               <S.ProfileInfo>
-                <S.UserName>{tierText} {userInfo.name}님</S.UserName>
+                <S.UserName>{currentTier.name} {userInfo.name}님</S.UserName>
                 <S.NameSchool>
                   <S.UserSchool>{userInfo.campus}</S.UserSchool>
                   <S.UserSchool>{userInfo.college}</S.UserSchool>
@@ -142,7 +144,7 @@ export function RankingPage() {
 
             <S.Container>
               <S.Title>
-                다음 단계까지 {Number(userInfo.points ).toLocaleString()}P 남았어요
+                다음 단계까지 {remainingPoints}P 남았어요
               </S.Title>
               
               <ScoreBar

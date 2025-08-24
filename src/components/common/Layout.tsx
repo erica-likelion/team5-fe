@@ -9,3 +9,4 @@ interface LayoutProps {
 export const Layout = ({ children, noVerticalPadding }: LayoutProps) => {
   return <LayoutContainer noVerticalPadding={noVerticalPadding}>{children}</LayoutContainer>;
 };
+

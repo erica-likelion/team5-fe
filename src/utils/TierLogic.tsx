@@ -1,13 +1,13 @@
 // TierLogic.ts
 
-// Define the tier information
+// (기존 tiers 그대로 유지)
 export const personalTiers = [
-  { name: '씨앗', minPoints: 0},
-  { name: '새싹', minPoints: 20},
-  { name: '떡잎', minPoints: 100},
-  { name: '어린나무', minPoints: 800},
-  { name: '숲', minPoints: 1600},
-  { name: '울창한 숲', minPoints: 2400},
+  { name: "씨앗", minPoints: 0, color: "#8BC34A" },
+  { name: "새싹", minPoints: 20, color: "#FFC107" },
+  { name: "떡잎", minPoints: 100, color: "#4CAF50" },
+  { name: "어린나무", minPoints: 800, color: "#673AB7" },
+  { name: "숲", minPoints: 1600, color: "#5a69ecff" },
+  { name: "울창한 숲", minPoints: 2400, color: "#003a15ff" },
 ];
 
 export const campusTiers = [

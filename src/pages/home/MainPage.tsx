@@ -1,7 +1,7 @@
 import * as S from "./MainPage.style";
 import profileImg from "@assets/common/profile-pic.svg";
 import rightArrow from "@assets/common/rightArrow.svg";
-import { personalTiers, calculateTierAndPercentage } from "../../utils/TierLogic";
+import { personalTiers, calculateTierAndRemaining } from "../../utils/TierLogic";
 import { useNavigate } from 'react-router-dom';
 
 // 더미 유저 데이터
@@ -53,7 +53,7 @@ const newsList = [
 
 export const MainPage = () => {
   const navigate = useNavigate();
-  const { currentTier, nextTier, fillPercentage } = calculateTierAndPercentage(
+  const { currentTier, nextTier, fillPercentage } = calculateTierAndRemaining(
     userData.points,
     personalTiers
   );

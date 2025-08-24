@@ -80,3 +80,36 @@ export async function fetchRecentHistories(
   // 지금은 시각만 쓰는 카드이므로 그대로 사용.
   return typeof limit === "number" ? mapped.slice(0, limit) : mapped;
 }
+
+// 서버 응답 스펙: { success: true, data: { ... } }
+export interface DailyActivity {
+  id: number;
+  userId: number;
+  activityDate: string; // 'YYYY-MM-DD'
+  totalPoints: number;
+  activitiesCount: number;
+}
+
+type BackendDailyActivityResponse = {
+  success: boolean;
+  data?: DailyActivity;
+};
+
+/**
+ * 특정 날짜 일간 활동 조회
+ * @param userId  사용자 ID
+ * @param dateISO 'YYYY-MM-DD'
+ * @returns DailyActivity
+ */
+export async function fetchDailyActivity(
+  userId: number,
+  dateISO: string
+): Promise<DailyActivity> {
+  const url = `/api/activities/user/${userId}/daily/${encodeURIComponent(dateISO)}`; // ✅ 백틱, 인코딩
+  const res = await api.get<BackendDailyActivityResponse>(url);
+
+  if (!res.data?.success || !res.data?.data) {
+    throw new Error("일간 활동 조회 실패");
+  }
+  return res.data.data;
+}

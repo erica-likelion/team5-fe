@@ -28,32 +28,34 @@ export const departmentTiers = [
   { name: '울창한 숲', minPoints:18000},
 ];
 
-/**
- * Calculates the user's current tier and the percentage of progress toward the next tier.
- * @param userPoints The user's current points.
- * @returns An object containing the current tier, the next tier, and the calculated fill percentage.
- */
-export const calculateTierAndPercentage = (userPoints: number, tiers: typeof personalTiers) => {
-  // Find the index of the current tier
-  const currentTierIndex = tiers.findIndex(tier => userPoints < tier.minPoints) - 1;
+// ✅ 새 함수: 다음 티어까지 남은 포인트 계산
+type Tier = { name: string; minPoints: number };
 
-  // Get the current and next tier objects, handling the case of the last tier
-  const currentTier = tiers[currentTierIndex] || tiers[tiers.length - 1];
-  const nextTier = tiers[currentTierIndex + 1];
+export const calculateTierAndRemaining = (
+  userPoints: number,
+  tiers: Tier[]
+) => {
+  // 방어적으로 복사 후 minPoints 오름차순 정렬 (tiers가 뒤섞여 있어도 안전)
+  const sorted = [...tiers].sort((a, b) => a.minPoints - b.minPoints);
 
-  let percentage = 100;
-  if (nextTier) {
-    const progress = userPoints - currentTier.minPoints;
-    const totalNeeded = nextTier.minPoints - currentTier.minPoints;
-    percentage = 50 + (progress / totalNeeded) * 50;
+  // 현재 티어 index 찾기: userPoints 이상 가능한 최대 인덱스
+  let currentIdx = 0;
+  for (let i = 0; i < sorted.length; i++) {
+    if (userPoints >= sorted[i].minPoints) currentIdx = i;
+    else break;
   }
-  
-  // Ensure the percentage doesn't exceed 100
-  const fillPercentage = Math.min(percentage, 100);
 
-  return {
-    currentTier,
-    nextTier,
-    fillPercentage,
-  };
+  const currentTier = sorted[currentIdx];
+  const nextTier = sorted[currentIdx + 1] ?? null;
+
+  // 다음 티어까지 남은 포인트 (최고 티어면 0)
+  const remainingPoints = nextTier ? Math.max(0, nextTier.minPoints - userPoints) : 0;
+
+  // (옵션) 다음 티어까지 총 필요 포인트
+  const totalToNext = nextTier ? nextTier.minPoints - currentTier.minPoints : 0;
+
+  return { currentTier, nextTier, remainingPoints, totalToNext };
 };
+
+// (원하면 숫자만 바로 받을 수 있게 헬퍼도 제공)
+export const pointsToNextTier = (userPoints: number, tiers: Tier[]) => calculateTierAndRemaining(userPoints, tiers).remainingPoints;

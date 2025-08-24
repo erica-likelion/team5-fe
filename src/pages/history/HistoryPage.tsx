@@ -1,111 +1,4 @@
-// import React, { useState } from 'react';
-// import HistoryHeader from '../../components/history/HistoryHeader';
-// import HistoryList from '../../components/history/HistoryList';
-// import ViewToggle from '../../components/history/ViewToggle';
-// import WeeklyReport from '../../components/history/WeeklyReport'; 
-// import styles from './HistoryPage.module.css';
 
-// export function HistoryPage() {
-
-//   const [view, setView] = useState<'day' | 'week'>('day');
-
-//   // API 응답에 맞춰 수정된 userData 더미 데이터
-//   const userData = {
-//     id: 1,
-//     username: "김지수",
-//     email: "jane@example.com",
-//     name: "지수",
-//     level: 3,
-//     pointsTotal: 1250,
-//     college: "소프트웨어융합대학",
-//     campus: "한양대학교 ERICA",
-//     createdAt: "2025-08-20T12:34:56",
-//     updatedAt: "2025-08-21T01:00:00"
-//   };
-
-// const historyData: {
-//   date: string;
-//   activities: {
-//     type: "photo" | "badge";
-//     title: string;
-//     time: string;
-//     points: number;
-//     totalPoints: number;
-//     icon: string;
-//   }[];
-// }[] = [
-//   {
-//     date: '08.11',
-//     activities: [
-//       { type: "photo", title: '블루포트', time: '11:28', points: 250, totalPoints: 19344, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "badge", title: '성실한 1.5도씨 획득', time: '09:30', points: 1000, totalPoints: 18344, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "photo", title: '스타벅스', time: '09:21', points: 200, totalPoints: 18094, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//     ],
-//   },
-//   {
-//     date: '08.10',
-//     activities: [
-//       { type: "photo", title: '투썸플레이스', time: '21:47', points: 250, totalPoints: 17884, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "photo", title: 'GS25', time: '20:08', points: 250, totalPoints: 17594, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "photo", title: 'GS25', time: '20:08', points: 200, totalPoints: 17394, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//     ],
-//   },
-//   {
-//     date: '08.09',
-//     activities: [
-//       { type: "photo", title: '투썸플레이스', time: '21:47', points: 250, totalPoints: 17884, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "photo", title: 'GS25', time: '20:08', points: 250, totalPoints: 17594, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//       { type: "photo", title: 'GS25', time: '20:08', points: 200, totalPoints: 17394, icon: 'https://images.unsplash.com/photo-1534528736688-6c84c4786411?w=800&q=80' },
-//     ],
-//   },
-// ];
-
-//   // 주간 리포트 더미 데이터
-//   const weeklyData = {
-//     month: 8,
-//     week: 1,
-//     rewardsByDay: [
-//       { day: '일', reward: 1200 },
-//       { day: '월', reward: 300 },
-//       { day: '화', reward: 1500 },
-//       { day: '수', reward: 1800 },
-//       { day: '목', reward: 800 },
-//       { day: '금', reward: 2200 },
-//       { day: '토', reward: 1000 },
-//     ],
-//     totalRewards: 6839,
-//     totalCollections: 24,
-//     newBadge: '성실한 수호자',
-//   };
-
-//   const handleBadgeClick = () => {
-//     console.log("뱃지 화면으로 이동!");
-//   };
-
-//   const handleViewToggle = (selectedView: 'day' | 'week') => {
-//     setView(selectedView);
-//   };
-
-//   return (
-//     <div className={styles.container}>
-//       <HistoryHeader user={userData} onBadgeClick={handleBadgeClick} />
-      
-//       <div className={styles.historySection}>
-//         <h2 className={styles.sectionTitle}>히스토리</h2>
-//         <ViewToggle currentView={view} onToggle={handleViewToggle} />
-//       </div>
-
-//       {view === 'day' ? (
-//         <HistoryList data={historyData} />
-//         // <WeeklyReport data={weeklyData} />
-//       ) : (
-//         <WeeklyReport data={weeklyData} />
-//       )}
-//     </div>
-//   );
-// };
-
-// export default HistoryPage;
 
 import React, { useEffect, useState } from 'react';
 import HistoryHeader, { type UserProps } from '../../components/history/HistoryHeader';
@@ -115,7 +8,9 @@ import WeeklyReport from '../../components/history/WeeklyReport';
 import styles from './HistoryPage.module.css';
 
 import { mapToHistoryByDate } from "./mapHistory";
-import type { HistoryByDate, ViewType } from "./types";
+import { getMonthWeekAnchorsFor, buildWeeklyData} from "./mapHistory";
+import type { HistoryByDate, ViewType, WeeklyData } from "./types";
+
 import api from '../../api/axios';  
 
 export function HistoryPage() {
@@ -131,7 +26,12 @@ export function HistoryPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = 8; // TODO: 실제 로그인 사용자 ID로 대체
+  // ✅ 주간 데이터 상태
+  const [monthWeekly, setMonthWeekly] = useState<WeeklyData[]>([]);
+  const [monthLoading, setMonthLoading] = useState(false);
+  const [monthError, setMonthError] = useState<string|null>(null);
+
+  const userId = 7; // TODO: 실제 로그인 사용자 ID로 대체
 
   // 1) 유저 API 호출 (/api/users/{id})
   useEffect(() => {
@@ -155,45 +55,72 @@ export function HistoryPage() {
 
   // 2) 히스토리 API 호출 (/api/points/user/{id}/type/all)
   useEffect(() => {
-    if (view !== 'day') return;
+  if (view !== 'day' || !user) return; // ✅ user 로딩 후 실행
 
-    const fetchHistory = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const res = await api.get(`/api/points/user/${userId}/type/all`);
-        const mapped = mapToHistoryByDate(res.data);
-        setHistoryData(mapped);
-      } catch (e: any) {
-        setError(e?.response?.data?.message || '히스토리 불러오기 실패');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchHistory = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await api.get(`/api/points/user/${userId}/type/all`);
+      // 총합 후보: pointsTotal → 없으면 points
+      const currentTotal =
+        Number((user as any).pointsTotal ?? (user as any).points ?? 0);
 
-    fetchHistory();
-  }, [view, userId]);
-
-  const handleBadgeClick = () => {
-    console.log("뱃지 화면으로 이동!");
+      const mapped = mapToHistoryByDate(res.data, currentTotal); // ✅ 전달
+      setHistoryData(mapped);
+    } catch (e: any) {
+      setError(e?.response?.data?.message || '히스토리 불러오기 실패');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const weeklyData = {
-    month: 8,
-    week: 1,
-    rewardsByDay: [
-      { day: '일', reward: 1200 },
-      { day: '월', reward: 300 },
-      { day: '화', reward: 1500 },
-      { day: '수', reward: 1800 },
-      { day: '목', reward: 800 },
-      { day: '금', reward: 2200 },
-      { day: '토', reward: 1000 },
-    ],
-    totalRewards: 6839,
-    totalCollections: 24,
-    newBadge: '성실한 수호자',
+  fetchHistory();
+}, [view, userId, user]);
+
+
+  // 3)
+
+  useEffect(() => {
+  if (view !== 'week') return;
+
+  const run = async () => {
+    setMonthLoading(true);
+    setMonthError(null);
+    try {
+      const monthDate = new Date(); // 이번 달
+      const anchors = getMonthWeekAnchorsFor(monthDate); // 월요일 앵커들 (과거→최근 순일 수 있음)
+      const monthNum = monthDate.getMonth() + 1;
+
+      // 앵커와 데이터를 같이 보관
+      const pairs = await Promise.all(
+        anchors.map(async (a) => {
+          const data = await buildWeeklyData(userId, a, { restrictToMonth: monthNum });
+          return { anchor: a, data };
+        })
+      );
+
+      // ✅ 최신이 위로: 앵커 날짜 내림차순
+      pairs.sort((a, b) => b.anchor.getTime() - a.anchor.getTime());
+
+      setMonthWeekly(pairs.map(p => p.data));
+    } catch (e: any) {
+      setMonthError(e?.response?.data?.message || "이번 달 주간 데이터 불러오기 실패");
+    } finally {
+      setMonthLoading(false);
+    }
   };
+
+  run();
+}, [view, userId]);
+
+// 컴포넌트 내부 어디 위쪽에 추가
+const handleBadgeClick = () => {
+  // TODO: 뱃지 화면 라우팅
+  console.log("뱃지 화면으로 이동!");
+};
+
+
 
   return (
     <div className={styles.container}>
@@ -220,8 +147,20 @@ export function HistoryPage() {
           <HistoryList data={historyData} />
         )
       ) : (
-        <WeeklyReport data={weeklyData} />
+        monthLoading ? (
+          <div className={styles.loading}>⏳ 이번 달 주간 데이터를 불러오는 중…</div>
+        ) : monthError ? (
+          <div className={styles.error}>⚠️ {monthError}</div>
+        ) : (
+          <div className={styles.weekList}>
+            {monthWeekly.map((wd, i) => (
+              <WeeklyReport key={`${wd.month}-${wd.week}-${i}`} data={wd} />
+            ))}
+          </div>
+        )
       )}
+
+
     </div>
   );
 }

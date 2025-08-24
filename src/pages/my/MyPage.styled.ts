@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 // 전체 컨테이너
 export const Container = styled.div`
-  padding: 25px;
   min-height: calc(100vh - 100px); // 네비게이션바 높이만큼 빼기
 `;
 

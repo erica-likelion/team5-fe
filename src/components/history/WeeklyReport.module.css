@@ -1,0 +1,62 @@
+/* src/components/history/WeeklyReport.module.css */
+
+.container {
+  background-color: #F7F8F9;           /* 카드 느낌으로 더 깔끔하게 */
+  padding: 13px 0px 16px;
+  margin-top: 16px;
+  position: relative;
+}
+
+/* 사진 상단의 얇은 컬러 바 */
+.topAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #D6DAE1;              
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: 500;
+  color: #121212;
+  margin: 6px 0 12px;
+}
+
+/* 그래프 영역 */
+.graphSection {
+  width: 100%;
+  height: 160px;                        /* 스샷 비율에 맞게 살짝 낮음 */
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+/* 리포트 요약 */
+.reportSummary {
+  margin-top: 16px;
+}
+
+.summaryItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  background-color: #73DBBE;           /* 상단 포인트 컬러와 통일 */
+  opacity: 0.9;
+  border-radius: 50%;
+}
+
+.summaryItem p {
+  margin: 0;
+  font-size: 16px;
+  color: #121212;
+  line-height: 1.5;
+}

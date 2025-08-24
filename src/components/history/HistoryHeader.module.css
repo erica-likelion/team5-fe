@@ -1,0 +1,100 @@
+
+/* src/components/history/HistoryHeader.module.css */
+
+/* 모든 HTML 요소의 기본 스타일 초기화 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* --- 프로필 헤더 섹션 --- */
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Header.module.css의 넓은 간격 적용 */
+  margin-bottom: 20px;
+}
+
+.profileImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userInfo {
+  flex-grow: 1;
+}
+
+.userNameRank {
+  display: block;
+}
+
+.userRank {
+  color: #121212;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110%;
+  letter-spacing: -1.12px;
+}
+
+.userName {
+  color: #121212;
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 110%;
+  letter-spacing: -1.12px;
+}
+
+.userInfo .userUniversity {
+  color: #777;
+  font-family: Pretendard;
+  font-size: 12px;
+  margin-top: 0;
+}
+
+/* 오른쪽 화살표 아이콘 */
+.arrowIcon {
+  margin-left: auto;
+  font-size: 24px;
+  color: #888;
+}
+
+/* --- 통계 섹션 --- */
+.statsSection {
+  display: flex;
+  justify-content: space-between;
+  gap: 13px; /* HistoryHeader.module.css의 간격 적용 */
+}
+
+.statBox {
+  flex-basis: 50%;
+  width: 168px;
+  height: 56px;
+  background-color: #fffffe;
+  border-radius: 9px;
+  padding: 5px 10px; /* HistoryHeader.module.css의 패딩 적용 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.statTitle {
+  font-size: 12px;
+  color: #777;
+  font-style: normal;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 22px; /* HistoryHeader.module.css의 폰트 크기 적용 */
+  font-style: normal;
+  font-weight: 500;
+  color: #121212;
+  text-align: right;
+}

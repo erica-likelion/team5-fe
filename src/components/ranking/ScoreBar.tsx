@@ -1,5 +1,5 @@
 import * as S from './ScoreBar.styled';
-import { calculateTierAndPercentage, personalTiers, campusTiers, departmentTiers } from '@utils/TierLogic';
+import { calculateTierAndRemaining, personalTiers, campusTiers, departmentTiers } from '@utils/TierLogic';
 
 interface ScoreBarProps {
   userName: string;
@@ -14,7 +14,7 @@ interface ScoreBarProps {
 const ScoreBar = ({ userName, userPoints, school, department, tierType, rank, isUserBar }: ScoreBarProps) => {
 
   const tiers = tierType === 'campus' ? campusTiers : tierType === 'department' ? departmentTiers : personalTiers;
-  const { currentTier } = calculateTierAndPercentage(userPoints, tiers);
+  const { currentTier, nextTier, remainingPoints } = calculateTierAndRemaining(userPoints, tiers);
 
   const fillPercentage =
     rank === 1 ? 90 : rank === 2 ? 80 : rank === 3 ? 70 : 60;

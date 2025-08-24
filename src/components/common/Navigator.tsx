@@ -23,7 +23,7 @@ export const Navigator = () => {
 
   const isHistory = pathname === "/History";
   const isHome = pathname === "/Home";
-  const isRanking = pathname === "/weekly-Ranking";
+  const isRanking = pathname === "/Ranking";
   const isMy = pathname === "/MY";
 
   return (
@@ -43,7 +43,7 @@ export const Navigator = () => {
         <Label></Label>
       </Camera>
 
-      <NavItem to="/weekly-Ranking" aria-label="Ranking">
+      <NavItem to="/Ranking" aria-label="Ranking">
         <Icon src={isRanking ? rankActive : rankUnactive} alt="rank" />
         <Label $active={isRanking}>Rank</Label>
       </NavItem>

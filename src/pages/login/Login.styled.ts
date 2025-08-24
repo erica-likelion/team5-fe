@@ -104,3 +104,9 @@ export const LinkButton = styled.button`
     background: #e0e0e0;
   }
 `;
+
+export const ErrorMsg = styled.p`
+  color: #e5484d;
+  font-size: 0.9rem;
+  margin: 8px 0 0;
+`;

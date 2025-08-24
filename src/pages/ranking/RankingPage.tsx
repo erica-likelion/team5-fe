@@ -123,6 +123,8 @@ export function RankingPage() {
   fetchRankingData();
 }, [selectedRanking, API_BASE_URL]); // selectedRanking이 변경될 때마다 데이터를 다시 가져옵니다.
 
+    
+
     return (
       <div>
         {userInfo ? (
@@ -140,15 +142,16 @@ export function RankingPage() {
 
             <S.Container>
               <S.Title>
-                다음 단계까지 {Number(userInfo.points ?? 0).toLocaleString()}P 남았어요
+                다음 단계까지 {Number(userInfo.points ).toLocaleString()}P 남았어요
               </S.Title>
+              
               <ScoreBar
                 userName={userInfo.name}
-                userPoints={Number(userInfo.points ?? 0)}   // number 보장
+                userPoints={userInfo.points}   // number 보장
                 school={userInfo.campus}
                 department={userInfo.college}
                 tierType={"individual"}
-                rank={0}
+                rank={2}
                 isUserBar={true}
               />
             </S.Container>

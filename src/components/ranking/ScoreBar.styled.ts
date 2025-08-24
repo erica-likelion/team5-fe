@@ -7,7 +7,6 @@ const rankColors = {
   default: '#F0F1F3',
 };
 
-
 const userBarColor = '#42B68F';
 
 export const Container = styled.div<{ rank: number; isUserBar?: boolean }>`

@@ -64,8 +64,8 @@ export const CoinIcon = styled.img`
 `;
 
 export const CoinValue = styled.span`
-font-size: 28px;
-font-weight: 500;
+  font-size: 28px;
+  font-weight: 500;
 `;
 
 // 쿠폰/적립내역 카드 섹션

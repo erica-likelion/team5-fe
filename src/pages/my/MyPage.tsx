@@ -20,7 +20,7 @@ import {
   MenuItem,
 } from "./MyPage.styled";
 import rightArrow from "@assets/common/rightArrow.svg";
-import profileImg from "@assets/My/profile-pic.svg";
+import profileImg from "@assets/common/profile-pic.svg";
 import coin from "@assets/My/coin.svg";
 import barcode from "@assets/My/barcode.svg";
 import pocket from "@assets/My/pocket.svg";

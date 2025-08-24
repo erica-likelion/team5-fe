@@ -1,9 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { analyzeImage } from '../../api/tacoApi';  // tacoApi에서 import
 import {
   Container,
   Video,
   Canvas,
+  FrameOverlay,
+  Corner,
+  FrameText,
+  CupImage,
   CaptureButton,
   WarningPopup,
   PopupHeader,
@@ -22,6 +27,7 @@ import tipIcon1 from "@assets/camera/tip1.svg";
 import tipIcon2 from '@assets/camera/tip2.svg';
 import tipIcon3 from '@assets/camera/tip3.svg';
 import tipIcon4 from '@assets/camera/tip4.svg';
+import cupImg from '@assets/camera/cup.svg';
 import cameraIcon from '@assets/camera/camera.svg';
 
 interface CameraPageProps {}
@@ -72,63 +78,51 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
 
   // 사진 촬영 및 백엔드 전송
   const capturePhoto = async () => {
-    if (!videoRef.current || !canvasRef.current) return;
+  if (!videoRef.current || !canvasRef.current) return;
 
-    setIsLoading(true);
+  setIsLoading(true);
 
-    try {
-      const canvas = canvasRef.current;
-      const video = videoRef.current;
-      const context = canvas.getContext('2d');
+  try {
+    const canvas = canvasRef.current;
+    const video = videoRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return;
 
-      if (!context) return;
+    // 비디오 프레임을 캔버스에 그림
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0);
 
-      // 캔버스에 비디오 프레임 그리기
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0);
+    // 캔버스를 Blob으로 변환 후 API 호출
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        setIsLoading(false);
+        alert("이미지 생성 실패");
+        return;
+      }
 
-      // 캔버스를 Blob으로 변환
-      canvas.toBlob(async (blob) => {
-        if (!blob) return;
+      try {
+        const file = new File([blob], 'capture.jpg', { type: 'image/jpeg' });
+        const result = await analyzeImage(file, "7");
 
-        // FormData 생성
-        const formData = new FormData();
-        formData.append('photo', blob, 'camera-photo.jpg');
-
-        try {
-          // TODO: 백엔드 엔드포인트 URL 설정
-          // AWS 서버 또는 로컬 서버에 따라 URL 변경 필요
-          // 예시:
-          // AWS: 'https://your-api-gateway-url/upload'
-          const BACKEND_URL = 'http://localhost:3001/api/upload'; // 수정 필요
-          
-          const response = await fetch(BACKEND_URL, {
-            method: 'POST',
-            body: formData,
-            // headers에 Content-Type을 설정하지 않음 (FormData가 자동으로 설정)
-          });
-
-          const result = await response.json();
-
-          // 백엔드 응답에 따른 페이지 이동
-          if (response.ok && result.success) {
-            navigate('/Success');
-          } else {
-            navigate('/Failure');
-          }
-        } catch (error) {
-          console.error('사진 업로드 오류:', error);
-          navigate('/Failure'); // 네트워크 오류 시도 navigate 사용
+        if (result.isRecyclable === true) {
+          navigate("/Success");
+        } else {
+          navigate("/Failure");
         }
-      }, 'image/jpeg', 0.8);
-    } catch (error) {
-      console.error('사진 촬영 오류:', error);
-      alert('사진 촬영에 실패했습니다.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
+      } catch (error: any) {
+        alert("분석 실패: " + error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    }, 'image/jpeg', 0.8);
+
+  } catch (error) {
+    setIsLoading(false);
+    alert("사진 촬영에 실패했습니다.");
+  }
+};
 
   return (
     <Container>
@@ -137,6 +131,21 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
 
       {/* 캔버스 */}
       <Canvas ref={canvasRef} style={{ display: 'none' }} />
+
+      {/* 프레임 오버레이 */}
+      <FrameOverlay>
+        <FrameText>
+          화면에 용기를<br />
+          알맞게 맞춰주세요.
+        </FrameText>
+        {/* 네 귀퉁이 */}
+        <Corner top left />
+        <Corner top right />
+        <Corner bottom left />
+        <Corner bottom right />
+        {/* 컵 이미지 */}
+        <CupImage src={cupImg} alt="컵" />
+      </FrameOverlay>
 
       {/* 촬영 버튼 */}
       <CaptureButton onClick={capturePhoto} disabled={isLoading} />

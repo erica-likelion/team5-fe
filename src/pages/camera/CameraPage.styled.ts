@@ -17,16 +17,100 @@ export const Canvas = styled.canvas`
   display: none;
 `;
 
+export const FrameOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+`;
+
+export const Corner = styled.div<{ top?: boolean; left?: boolean; right?: boolean; bottom?: boolean }>`
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-style: solid;
+  border-color: white;
+  /* 네 귀퉁이 방향별로 보더 적용 */
+  ${(props) =>
+    props.top && props.left && `
+      top: 164px;
+      left: 23px;
+      border-top-width: 2px;
+      border-left-width: 2px;
+      border-right-width: 0;
+      border-bottom-width: 0;
+    `
+  }
+  ${(props) =>
+    props.top && props.right && `
+      top: 164px;
+      right: 25px;
+      border-top-width: 2px;
+      border-left-width: 0;
+      border-right-width: 2px;
+      border-bottom-width: 0;
+    `
+  }
+  ${(props) =>
+    props.bottom && props.left && `
+      bottom: 130px;
+      left: 23px;
+      border-top-width: 0px;
+      border-left-width: 2px;
+      border-right-width: 0px;
+      border-bottom-width: 2px;
+    `
+  }
+  ${(props) =>
+    props.bottom && props.right && `
+      bottom: 130px;
+      right: 25px;
+      border-top-width: 0px;
+      border-left-width: 0px;
+      border-right-width: 2px;
+      border-bottom-width: 2px;
+    `
+  }
+`;
+
+export const FrameText = styled.div`
+  position: absolute;
+  top: 59px;
+  left: 23px;
+  width: 100%;
+  text-align: left;
+  z-index: 3;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 140%; /* 39.2px */
+  letter-spacing: -1.12px;
+`;
+
+export const CupImage = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;  // 원하는 크기대로 조정
+  height: auto;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  pointer-events: none;
+`;
 
 export const CaptureButton = styled.button`
-  position: absolute;      // 절대 위치 지정
-  bottom: 30px;            // 비디오 아래쪽에서 30px 위
-  left: 50%;               // 가로 중앙
-  transform: translateX(-50%);  // 정확한 중앙 정렬
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 80px;
   height: 80px;
-  border-radius: 50%;      // 둥근 원 형태
-  background-color: transparent;
+  border-radius: 50%;
+  background-color: #ffffff;
   border: none;
   cursor: pointer;
   padding: 0;
@@ -45,17 +129,19 @@ export const CaptureButton = styled.button`
   }
 
   &:before {
-    width: 60px;
-    height: 60px;
+    width: 66px;
+    height: 66px;
     opacity: 0.4;
   }
 
   &:after {
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     opacity: 1;
+    border: 2px solid black; /* 여기에 테두리 추가 */
   }
 `;
+
 
 export const WarningPopup = styled.div`
   position: absolute;

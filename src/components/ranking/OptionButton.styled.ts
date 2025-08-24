@@ -9,6 +9,7 @@ export const Container = styled.div`
   margin-bottom: 19px;
 `;
 
+
 export const Button = styled.button<{ $active: boolean }>`
   padding: 8px 24px;
   border-radius: 25px; /* 둥근 모서리 */

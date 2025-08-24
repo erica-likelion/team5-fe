@@ -1,0 +1,51 @@
+/* 바깥 캡슐 */
+.toggleContainer {
+  width: 160px;
+  height: 34px;
+  display: flex;             /* inline-flex → flex (동일하지만 명시적으로) */
+  border: 1px solid #121212;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* 라벨: flex-grow로 정확히 반 나눔 */
+.radioLabel {
+  flex: 1;                   /* 각 버튼이 50% 차지 */
+  height: 100%;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* 실제 라디오 숨김 */
+.radioLabel > input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 보이는 버튼 */
+.radioLabel > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* 글자 중앙 정렬 */
+  height: 100%;              /* 컨테이너 높이 꽉 채움 */
+  font-size: 18px;
+  font-weight: 500;
+  color: #6b7280;
+  background: #fff;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+/* 중앙 구분선 */
+.radioLabel + .radioLabel > span {
+  border-left: 1px solid #121212;  /* 자동으로 정중앙에 배치됨 */
+}
+
+/* 선택된 쪽 */
+.radioLabel > input:checked + span {
+  background: #AFE5D4;
+  color: #121212;
+}

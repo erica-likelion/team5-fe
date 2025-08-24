@@ -30,8 +30,7 @@ if (response.data && response.data.success === true && response.data.data) {
 } else {
   throw new Error("사용자 정보를 불러오는데 실패했습니다.");
 }
-
-  } catch (error: any) {
+} catch (error: any) {
     throw new Error(error.message || "사용자 API 요청중 오류가 발생했습니다.");
   }
 };

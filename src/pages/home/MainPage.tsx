@@ -5,6 +5,7 @@ import rightArrow from "@assets/common/rightArrow.svg";
 import { personalTiers, calculateTierAndPercentage } from "../../utils/TierLogic";
 import { useNavigate } from 'react-router-dom';
 import { getUser, type User } from "../../api/user";
+import { getRecentEarnedHistories } from "../../api/history";
 
 // // 더미 유저 데이터
 // const userData = {
@@ -17,7 +18,6 @@ import { getUser, type User } from "../../api/user";
 const recentHistories = [
   {
     id: 1,
-    brand: "블루포트",
     time: "11:28",
     type: "PET",
     icon: "pet", // PET 아이콘(더미로 사용), 실제 구현시 SVG 등으로 교체
@@ -27,7 +27,6 @@ const recentHistories = [
   },
   {
     id: 2,
-    brand: "스타벅스",
     time: "09:21",
     type: "PET",
     icon: "pet", // PET 아이콘
@@ -92,7 +91,6 @@ export const MainPage = () => {
 
   const pointsToNext = nextTier ? nextTier.minPoints - userData.pointsTotal : 0;
 
-
   return (
     <S.Container>
       {/* 상단 프로필 영역 */}
@@ -127,9 +125,9 @@ export const MainPage = () => {
           {/* 예시: <img src={BluepotLogo} alt="블루포트" /> */}
         </S.HistoryLogo>
         <S.HistoryBrandInfo>
-          <S.HistoryBrand>{item.brand}</S.HistoryBrand>
+          <S.HistoryBrand>{item.type}</S.HistoryBrand>
           <S.HistoryMeta>
-            {item.time} | {item.type}
+            {item.time}
           </S.HistoryMeta>
         </S.HistoryBrandInfo>
       </S.HistoryTop>

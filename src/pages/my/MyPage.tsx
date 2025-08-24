@@ -24,10 +24,17 @@ import profileImg from "@assets/common/profile-pic.svg";
 import coin from "@assets/My/coin.svg";
 import barcode from "@assets/My/barcode.svg";
 import pocket from "@assets/My/pocket.svg";
+import { getUser, type User } from "../../api/user";
+import { useState, useEffect } from "react";
 
 export const MyPage = () => {
+  const [userData, setUserData] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const userId = 8; //더미
+  
   // 더미데이터
   const user = {
     name: "하은",
@@ -36,6 +43,32 @@ export const MyPage = () => {
     coupons: 5,
     history: 38,
   };
+
+  useEffect(() => {
+      const fetchUser = async () => {
+        try {
+          const user = await getUser(userId);
+          setUserData(user);
+        } catch (err: any) {
+          setError(err.message || "Failed to fetch user data");
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUser();
+    }, []);
+  
+    if (loading) {
+      return <div>Loading...</div>; // Or a styled loader
+    }
+  
+    if (error) {
+      return <div>Error: {error}</div>;
+    }
+  
+    if (!userData) {
+      return <div>No user data</div>;
+    }
 
   // 메뉴 항목
   const menuItems = [
@@ -51,8 +84,8 @@ export const MyPage = () => {
       <ProfileSection onClick={() => navigate("/Ranking")}>
         <ProfileImage src={profileImg} alt="Profile" />
         <ProfileInfo>
-          <UserName>{user.name}</UserName>
-          <UserDesc>{user.desc}</UserDesc>
+          <UserName>{userData.nickname}</UserName>
+          <UserDesc>{userData.school}{" "}{userData.college}{" "}{userData.campus}{"캠퍼스"}</UserDesc>
         </ProfileInfo>
         <RightArrowIcon src={rightArrow} alt="right arrow" />
       </ProfileSection>

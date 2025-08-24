@@ -6,9 +6,15 @@ import RankingButtons, { type RankingType } from "@components/ranking/OptionButt
 import profileImg from "@assets/common/profile-pic.svg";
 import * as S from "./RankingPage.style";
 
-const user = [
-    { name: '하은', points: 2000, school: '한양대학교 ERICA', department: '디자인대학' },
-];
+
+type UserInfo = {
+  id: number;
+  name: string;
+  points: number;
+  rank: number;
+  campus: string;
+  college: string;
+};
 
 export function RankingPage() {
 
@@ -18,10 +24,40 @@ export function RankingPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   const handleSelectRanking = (option: RankingType) => {
       setSelectedRanking(option);
   };
+
+  const RANK_LABELS = ['씨앗 ', '새싹 ', '떡잎 ', '어린나무 ', '숲 ', '울창한 숲 '] as const;
+  const idx = Math.max(0, Math.min(RANK_LABELS.length - 1, (Number(userInfo?.rank) || 1) - 1));
+  const tierText = RANK_LABELS[idx];
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/users/2`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("access_token")}`, // 저장된 토큰 사용
+          },
+        });
+        const data = res.data?.data ?? res.data; // API 응답 구조에 따라
+        setUserInfo({
+          id: data.id,
+          name: data.name,
+          points: Number(data.points ?? 0),
+          rank: Number(data.level ?? 0),
+          campus: data.campus ?? "",
+          college: data.college ?? "",
+        });
+      } catch (err) {
+        console.error("사용자 정보 불러오기 실패:", err);
+      }
+    };
+    fetchUserInfo();
+  }, [API_BASE_URL]);
 
   useEffect(() => {
   const fetchRankingData = async () => {
@@ -88,51 +124,64 @@ export function RankingPage() {
 }, [selectedRanking, API_BASE_URL]); // selectedRanking이 변경될 때마다 데이터를 다시 가져옵니다.
 
     return (
-        <div>
+      <div>
+        {userInfo ? (
+          <>
             <S.ProfileSection>
               <S.ProfileImage src={profileImg} alt="Profile" />
               <S.ProfileInfo>
-                <S.UserName>{user[0].name}</S.UserName>
+                <S.UserName>{tierText} {userInfo.name}님</S.UserName>
                 <S.NameSchool>
-                  <S.UserSchool>{user[0].school}</S.UserSchool>
-                  <S.UserSchool>{user[0].department}</S.UserSchool>
+                  <S.UserSchool>{userInfo.campus}</S.UserSchool>
+                  <S.UserSchool>{userInfo.college}</S.UserSchool>
                 </S.NameSchool>
               </S.ProfileInfo>
             </S.ProfileSection>
+
             <S.Container>
-                <S.Title>다음 단계까지 {user[0].points}P 남았어요</S.Title>
-                <ScoreBar
-                    userName={user[0].name}
-                    userPoints={user[0].points}
-                    school={user[0].school}
-                    department={user[0].department}
-                    tierType={'individual'}
-                    rank={0}
-                    isUserBar = {true} 
-                />
+              <S.Title>
+                다음 단계까지 {Number(userInfo.points ?? 0).toLocaleString()}P 남았어요
+              </S.Title>
+              <ScoreBar
+                userName={userInfo.name}
+                userPoints={Number(userInfo.points ?? 0)}   // number 보장
+                school={userInfo.campus}
+                department={userInfo.college}
+                tierType={"individual"}
+                rank={0}
+                isUserBar={true}
+              />
             </S.Container>
-            <RankingButtons selectedOption={selectedRanking} onSelect={handleSelectRanking} />
+          </>
+        ) : (
+          // 로딩/플레이스홀더(선택)
+          <S.Container>
+            <S.Title>사용자 정보를 불러오는 중...</S.Title>
+          </S.Container>
+        )}
+
+        <RankingButtons selectedOption={selectedRanking} onSelect={handleSelectRanking} />
 
         <S.RankingList>
-        {isLoading ? (
-          <p>로딩 중...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : (
-          (rankingData ?? []).map((item, idx) => (
-            <ScoreBar
-              key={idx}
-              rank={item.rank}
-              isUserBar={false}
-              tierType={selectedRanking}
-              userName={item.userName}
-              userPoints={item.points}              // number 보장
-              school={item.school ?? ""}
-              department={item.department ?? ""}
-            />
-          ))
-        )}
-      </S.RankingList>
-    </div>
-  );
+          {isLoading ? (
+            <p>로딩 중...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : (
+            (rankingData ?? []).map((item, idx) => (
+              <ScoreBar
+                key={idx}
+                rank={item.rank}
+                isUserBar={false}
+                tierType={selectedRanking}
+                userName={item.userName}
+                userPoints={item.points}      // 이미 number로 정규화했다는 가정
+                school={item.school ?? ""}
+                department={item.department ?? ""}
+              />
+            ))
+          )}
+        </S.RankingList>
+      </div>
+    );
 }

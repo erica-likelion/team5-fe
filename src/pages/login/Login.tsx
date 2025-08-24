@@ -9,7 +9,7 @@ const Login: React.FC = () => {
       <S.Greeting>
         안녕하세요.
         <br />
-        Pickle 입니다.
+        <S.Grace>Pickle</S.Grace> 입니다.
       </S.Greeting>
       <S.SubLabel>회원 서비스 이용을 위해 로그인해 주세요.</S.SubLabel>
       <S.FormContainer>
@@ -18,7 +18,11 @@ const Login: React.FC = () => {
           <S.Input1 type="text" placeholder="" />
         </S.InputGroup>
         <S.InputGroup>
-          <S.Label>소속학교, 캠퍼스 명</S.Label>
+          <S.Label>소속학교</S.Label>
+          <S.Input2 type="text" placeholder="" />
+        </S.InputGroup>
+        <S.InputGroup>
+          <S.Label>단과대학</S.Label>
           <S.Input2 type="text" placeholder="" />
         </S.InputGroup>
       </S.FormContainer>

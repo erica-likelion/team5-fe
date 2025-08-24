@@ -18,9 +18,10 @@ export const Greeting = styled.p`
   font-size: 36px;
   font-weight: 500;
   line-height: 140%;
+`;
 
-  & > span {
-    font-family: 'Georgia', cursive; 
+export const Grace = styled.span`
+    font-family: 'Grace'; 
     font-size: 40px;
     font-weight: 400;
     letter-spacing: -1.6px;
@@ -72,7 +73,7 @@ export const Input1 = styled.input`
 
 export const Input2 = styled.input`
   width: 100%;
-  padding: 2px 100px 12px 160px; 
+  padding: 2px 100px 12px 80px; 
   border: none;
   border-bottom: 1px solid #121212;
   font-size: 20px;

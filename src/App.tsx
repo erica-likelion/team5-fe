@@ -12,12 +12,13 @@ import { RankingPage } from '@pages/ranking/RankingPage';
 import { MyPage } from '@pages/my/MyPage';
 import { SuccessPage } from '@pages/camera/SuccessPage';
 import { FailurePage } from '@pages/camera/FailurePage';
+import Login from '@pages/login/Login';
 
 function AppContent() {
   const location = useLocation();
 
   // 네비게이터 숨길 경로
-  const hideNavigatorPaths = ['/Camera', '/Success', '/Failure'];
+  const hideNavigatorPaths = ['/Camera', '/Success', '/Failure', '/login'];
   // 위아래 패딩 없앨 경로
   const noVerticalPaddingPaths = ['/Camera', '/Success', '/Failure'];
   const noVerticalPadding = noVerticalPaddingPaths.includes(location.pathname);
@@ -33,6 +34,7 @@ function AppContent() {
           <Route path="/My" element={<MyPage />} />
           <Route path="/Success" element={<SuccessPage />} />
           <Route path="/Failure" element={<FailurePage />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Layout>
       {!hideNavigatorPaths.includes(location.pathname) && <Navigator />}
@@ -48,7 +50,7 @@ function App() {
       const isFirstVisit = !sessionStorage.getItem('visited');
       if (isFirstVisit) {
         setTimeout(() => {
-          setIsSplashVisible(false);
+          setIsSplashVisible(true);
           sessionStorage.setItem('visited', 'true');
         }, 2000);
       } else {

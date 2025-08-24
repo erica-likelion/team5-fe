@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import ScoreBar from "@components/ranking/ScoreBar";
 import RankingButtons, { type RankingType } from "@components/ranking/OptionButton";
+import profileImg from "@assets/common/profile-pic.svg";
 import * as S from "./RankingPage.style";
 
 const users = [
@@ -47,6 +48,16 @@ export function RankingPage() {
 
     return (
         <div>
+            <S.ProfileSection>
+              <S.ProfileImage src={profileImg} alt="Profile" />
+              <S.ProfileInfo>
+                <S.UserName>{user[0].name}</S.UserName>
+                <S.NameSchool>
+                  <S.UserSchool>{user[0].school}</S.UserSchool>
+                  <S.UserSchool>{user[0].department}</S.UserSchool>
+                </S.NameSchool>
+              </S.ProfileInfo>
+            </S.ProfileSection>
             <S.Container>
                 <S.Title>다음 단계까지 {user[0].points}P 남았어요</S.Title>
                 <ScoreBar

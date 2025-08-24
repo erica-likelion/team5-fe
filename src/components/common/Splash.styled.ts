@@ -4,15 +4,13 @@ export const SplashContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
-  background-color: white;
+  background-color: #F7F8F9;
   position: relative; 
 `;
 
 export const LogoImage = styled.img`
   position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  display: flex;
+  flex-direction: column;
+
 `;

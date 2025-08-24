@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 // 전체 컨테이너
 export const Container = styled.div`
-  padding: 25px;
   min-height: calc(100vh - 100px); // 네비게이션바 높이만큼 빼기
 `;
 
@@ -65,8 +64,8 @@ export const CoinIcon = styled.img`
 `;
 
 export const CoinValue = styled.span`
-font-size: 28px;
-font-weight: 500;
+  font-size: 28px;
+  font-weight: 500;
 `;
 
 // 쿠폰/적립내역 카드 섹션

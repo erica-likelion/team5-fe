@@ -1,4 +1,3 @@
-import { useRef, useState, useEffect } from 'react';
 import * as S from './ScoreBar.styled';
 import { calculateTierAndPercentage, personalTiers, campusTiers, departmentTiers } from '@utils/TierLogic';
 

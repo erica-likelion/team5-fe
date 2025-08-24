@@ -1,0 +1,49 @@
+/* src/components/history/HistoryList.module.css */
+
+
+.timelineWrapper {
+  position: relative; /* 모든 날짜 그룹의 기준점 역할 */
+}
+
+/* 타임라인의 전체 세로선 */
+.timelineWrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px; /* 선 위치 조정 */
+  width: 1px;
+  height: 100%;
+  background-color: #777;
+}
+
+.dayGroup {
+  margin-bottom: 49px;
+  padding-left: 45px; /* 선이 들어갈 공간 확보 */
+  position: relative; /* 날짜 박스의 위치 기준 */
+}
+
+.date {
+  width: 35px;
+  height: 35px;             /* 정사각형 */
+  background-color: #F0F1F3; /* 배경색 (이미지처럼 살짝 회색톤) */
+  border-radius: 10px;       /* 둥근 모서리 */
+
+  font-size: 14px;           /* 폰트 크기 */
+  font-weight: 600;
+  color: #121212;
+  text-align: center;        /* 글자 가운데 정렬 */
+  line-height: 35px;         /* 세로 가운데 정렬 */
+  
+  position: absolute;
+  left: 20px;                /* 세로선 위치 기준 */
+  top: 0;
+  transform: translateX(-50%); /* 선의 중앙에 맞추기 */
+  z-index: 2;
+}
+
+
+.itemsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -1,15 +1,17 @@
+import { useState, useEffect } from "react";
 import * as S from "./MainPage.style";
 import profileImg from "@assets/common/profile-pic.svg";
 import rightArrow from "@assets/common/rightArrow.svg";
 import { personalTiers, calculateTierAndPercentage } from "../../utils/TierLogic";
 import { useNavigate } from 'react-router-dom';
+import { getUser, type User } from "../../api/user";
 
-// 더미 유저 데이터
-const userData = {
-  name: "하은",
-  level: 1, // 새싹
-  points: 70, // 현재 포인트
-};
+// // 더미 유저 데이터
+// const userData = {
+//   name: "하은",
+//   level: 1, // 새싹
+//   points: 70, // 현재 포인트
+// };
 
 // 더미 최근 내역 데이터 (2개)
 const recentHistories = [
@@ -53,15 +55,43 @@ const newsList = [
 
 export const MainPage = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const user = await getUser(8); // Fetch user with id 8 (dummy)
+        setUserData(user);
+      } catch (err: any) {
+        setError(err.message || "Failed to fetch user data");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or a styled loader
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!userData) {
+    return <div>No user data</div>;
+  }
+
   const { currentTier, nextTier, fillPercentage } = calculateTierAndPercentage(
-    userData.points,
+    userData.pointsTotal,
     personalTiers
   );
 
-  // 다음 등급까지 필요한 포인트 계산
-  const pointsToNext = nextTier
-    ? nextTier.minPoints - userData.points
-    : 0;
+  const pointsToNext = nextTier ? nextTier.minPoints - userData.pointsTotal : 0;
+
 
   return (
     <S.Container>

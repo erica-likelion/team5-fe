@@ -40,8 +40,8 @@ export const Corner = styled.div<{ top?: boolean; left?: boolean; right?: boolea
       left: 23px;
       border-top-width: 2px;
       border-left-width: 2px;
-      border-right-width: 0;
-      border-bottom-width: 0;
+      border-right-width: 0px;
+      border-bottom-width: 0px;
     `
   }
   ${(props) =>
@@ -49,9 +49,9 @@ export const Corner = styled.div<{ top?: boolean; left?: boolean; right?: boolea
       top: 164px;
       right: 25px;
       border-top-width: 2px;
-      border-left-width: 0;
+      border-left-width: 0px;
       border-right-width: 2px;
-      border-bottom-width: 0;
+      border-bottom-width: 0px;
     `
   }
   ${(props) =>

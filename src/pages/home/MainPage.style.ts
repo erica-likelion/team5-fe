@@ -10,14 +10,14 @@ export const Container = styled.div`
 export const ProfileSection = styled.section`
   display: flex;
   align-items: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
 
 export const ProfileImg = styled.img`
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  margin-top: 49px;
+  margin-top: 25px;
   margin-right: 16px;
   margin-bottom: 2px;
   background: #eee;
@@ -34,14 +34,6 @@ export const ProfileText = styled.div`
   line-height: 1.4;
   margin-bottom: 8px;
   letter-spacing: -1.12px;
-`;
-
-// 회원 등급명
-export const TierName = styled.span`
-`;
-
-// 남은 포인트
-export const PointSpan = styled.span`
 `;
 
 // 게이지 바 컨테이너
@@ -63,10 +55,16 @@ export const ProgressBar = styled.div<{ width: number; color: string }>`
 // 섹션 제목
 export const SectionTitle = styled.h2`
   font-size: 24px;
-font-style: normal;
-font-weight: 500;
-line-height: 140%; /* 33.6px */
-letter-spacing: -0.72px;  
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%; /* 33.6px */
+  letter-spacing: -0.72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-too: 10px;
+  margin-bottom: 8px;
 `;
 
 // 더보기
@@ -80,8 +78,10 @@ export const MoreButton = styled.button`
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 0 0 0 210px;
+  padding: 0;
+  margin-left: auto; /* 텍스트와 버튼 사이 공간을 자동으로 채움 */
 `;
+
 
 export const ArrowIcon = styled.img`
   width: 14px;
@@ -92,7 +92,7 @@ export const ArrowIcon = styled.img`
 export const HistoryList = styled.div`
   display: flex;
   gap: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 `;
 
 // 최근 내역 카드
@@ -202,7 +202,7 @@ export const HistoryTotal = styled.span`
 
 // 내 소식 리스트
 export const NewsList = styled.ul`
-  margin: 12px 0px 12px 0px;
+  margin: 6px 0px 12px 0px;
   display: flex;
   flex-direction: column;
   gap: 8px;

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { analyzeImage } from '../../api/tacoApi';  // tacoApi에서 import
+import { analyzeImage } from '../../api/camera';
 import {
   Container,
   Video,
@@ -38,6 +38,7 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
+  const dummyuserId = "7";
 
   // 카메라 스트림 시작
   useEffect(() => {
@@ -103,7 +104,7 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
 
       try {
         const file = new File([blob], 'capture.jpg', { type: 'image/jpeg' });
-        const result = await analyzeImage(file, "7");
+        const result = await analyzeImage(file, dummyuserId);
 
         if (result.isRecyclable === true) {
           navigate("/Success");
@@ -138,12 +139,10 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
           화면에 용기를<br />
           알맞게 맞춰주세요.
         </FrameText>
-        {/* 네 귀퉁이 */}
         <Corner top left />
         <Corner top right />
         <Corner bottom left />
         <Corner bottom right />
-        {/* 컵 이미지 */}
         <CupImage src={cupImg} alt="컵" />
       </FrameOverlay>
 

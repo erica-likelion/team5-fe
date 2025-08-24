@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://43.203.226.243", // 공통 URL
+  baseURL: "http://43.203.226.243:8080", // 공통 URL
   headers: {
     "Content-Type": "application/json",
   },

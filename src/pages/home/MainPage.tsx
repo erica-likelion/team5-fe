@@ -4,7 +4,7 @@ import type { UserData } from '../../api/user';
 import { fetchUserData } from '../../api/user';
 
 import type { RecentHistory } from '../../api/history';
-import { fetchRecentHistories } from '../../api/history';
+import { fetchRecentHistories } from "../../api/history";
 
 import type { News } from '../../api/news';
 import { fetchNewsList } from '../../api/news';

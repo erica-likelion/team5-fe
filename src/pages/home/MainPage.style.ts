@@ -16,7 +16,6 @@ export const ProfileImg = styled.img`
   width: 54px;
   height: 54px;
   border-radius: 50%;
-  margin-top: 25px;
   margin-right: 16px;
   margin-bottom: 2px;
   background: #eee;

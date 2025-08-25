@@ -10,8 +10,6 @@ import {
   Cell,
 } from 'recharts';
 import styles from './WeeklyReport.module.css';
-import { personalTiers, calculateTierAndRemaining } from '@utils/TierLogic';
-import { useMemo } from 'react';
 
 // 공용 타입
 import type { WeeklyData } from '../../pages/history/types';
@@ -26,10 +24,6 @@ const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3'];
 
 const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
   // ✅ 여기서 totalPoints로 다음 티어/잔여 포인트 계산
-  const { nextTier, remainingPoints } = useMemo(
-    () => calculateTierAndRemaining(totalPoints, personalTiers),
-    [totalPoints]
-  );
 
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림
   const chartData = (data.rewardsByDay ?? []).map(d => ({ ...d, trend: d.reward }));
@@ -86,14 +80,6 @@ const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
 
       {/* 리포트 요약 */}
       <div className={styles.reportSummary}>
-        <div className={styles.summaryItem}>
-          <div className={styles.dot}></div>
-          <p>
-            {/* ✅ 주간 데이터에 있던 nextTierName/remainingToNext 대신 계산값 사용 */}
-            다음 단계{nextTier ? `(${nextTier.name})` : ''}까지{' '}
-            {Math.max(0, remainingPoints).toLocaleString()}P 남았어요.
-          </p>
-        </div>
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>
           <p>총 {data.recyclingCount}회의 분리수거를 성공했어요.</p>

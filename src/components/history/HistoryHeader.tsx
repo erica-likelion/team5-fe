@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './HistoryHeader.module.css';
 
-interface UserProps {
+export interface UserProps {
   id: number;
   username: string;
   email: string;

@@ -28,7 +28,11 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ item }) => {
         className={styles.itemIcon}
       />
       <div className={styles.infoSection}>
-        <h3 className={styles.shopName}>{item.title}</h3> {/* shopName에서 title로 변경 */}
+        {/* <h3 className={styles.shopName}>{item.title}</h3> shopName에서 title로 변경 */}
+        <h3 className={styles.shopName} title={item.title}>
+          {item.title}
+        </h3>
+
         <p className={styles.time}>{item.time}</p>
       </div>
       <div className={styles.pointSection}>

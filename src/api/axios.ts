@@ -2,7 +2,7 @@
 import axios from "axios";
 
 // 개발 단계용 고정 토큰 (나중엔 로그인 인증 결과로 대체)
-const ACCESS_TOKEN = "cc25e466-fc6c-4d24-8a63-6f3cba41cbd0";
+const ACCESS_TOKEN = "550e8400-e29b-41d4-a716-446655440000";
 
 // 공통 axios 인스턴스
 const apiClient = axios.create({

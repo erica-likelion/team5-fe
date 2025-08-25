@@ -154,7 +154,7 @@ export function RankingPage() {
                 department={userInfo.college}
                 tierType={"individual"}
                 rank={2}
-                isUserBar={true}
+                isuserbar={true}
               />
             </S.Container>
           </>
@@ -177,7 +177,7 @@ export function RankingPage() {
               <ScoreBar
                 key={idx}
                 rank={item.rank}
-                isUserBar={false}
+                isuserbar={false}
                 tierType={selectedRanking}
                 userName={item.userName}
                 userPoints={item.points}      // 이미 number로 정규화했다는 가정

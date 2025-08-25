@@ -22,8 +22,6 @@ export const MainPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-
-
   useEffect(() => {
     (async () => {
       try {
@@ -106,8 +104,8 @@ export const MainPage = () => {
                 <S.HistoryBrand>{item.wasteType ?? "기타"}</S.HistoryBrand>
                 {/* 생성시각 */}
                 <S.HistoryMeta>
-  {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-</S.HistoryMeta>
+                {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </S.HistoryMeta>
               </S.HistoryBrandInfo>
             </S.HistoryTop>
 
@@ -118,7 +116,7 @@ export const MainPage = () => {
 
             <S.HistoryBottom>
               {/* 총 포인트(목록 공통) */}
-              <S.HistoryTotal>{`${basisPoints.toLocaleString()}p`}</S.HistoryTotal>
+              {/* <S.HistoryTotal>{`${basisPoints.toLocaleString()}p`}</S.HistoryTotal> */}
             </S.HistoryBottom>
           </S.HistoryCard>
         ))}

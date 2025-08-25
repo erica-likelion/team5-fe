@@ -195,23 +195,25 @@ export function getMonthWeekInfo(d: Date) {
 export async function buildWeeklyData(
   userId: number,
   anchorDate: Date,
-  opts?: { restrictToMonth?: number }
+  opts?: { restrictToMonth?: number }, 
 ): Promise<WeeklyData> {
   const weekDates = getWeekDates(anchorDate);
 
   const results = await Promise.all(
     weekDates.map(d => fetchDailyActivity(userId, toISO(d)).catch(() => null))
   );
+  console.log('results', results);
 
   const restrictMonth = opts?.restrictToMonth; // 1~12
   const rewardsByDay = results.map((res, idx) => {
     const inMonth = weekDates[idx].getMonth() + 1;
     const reward = (restrictMonth && inMonth !== restrictMonth)
       ? 0
-      : (res?.totalPoints ?? 0);
+      : (res?.totalPointsEarned ?? 0);
     return { day: DAY_LABELS[idx], reward };
   });
 
+  console.log('rewardsByDay', rewardsByDay);
   const totalRewards = rewardsByDay.reduce((s, r) => s + r.reward, 0);
   const totalCollections = results.reduce((s, r, idx) => {
     const inMonth = weekDates[idx].getMonth() + 1;

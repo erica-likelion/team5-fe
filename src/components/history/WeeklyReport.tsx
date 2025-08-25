@@ -24,6 +24,7 @@ const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3'];
 const WeeklyReport = ({ data }: WeeklyReportProps) => {
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림
   const chartData = (data.rewardsByDay ?? []).map(d => ({ ...d, trend: d.reward }));
+  console.log(chartData)
 
   return (
     <div className={styles.container}>

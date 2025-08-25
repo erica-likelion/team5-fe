@@ -8,14 +8,10 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
 
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [form] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = async (e?: React.FormEvent) => {
     e?.preventDefault();

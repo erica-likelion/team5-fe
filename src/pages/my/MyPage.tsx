@@ -107,7 +107,7 @@ export const MyPage = () => {
         </Card>
       </CardSection>
       <MenuList>
-        {menuItems.map((item, idx) => (
+        {menuItems.map((item) => (
           <MenuItem key={item}>{item}</MenuItem>
         ))}
       </MenuList>

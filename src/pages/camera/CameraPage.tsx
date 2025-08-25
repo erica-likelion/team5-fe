@@ -39,7 +39,6 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
-  const noShowKey = 'hideCameraTip';
 
 
   const dummyuserId = "7";

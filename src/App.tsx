@@ -17,15 +17,9 @@ function App() {
   const location = useLocation();
 
   // 네비게이터 숨길 경로
-<<<<<<< HEAD
-  const hideNavigatorPaths = ['/Camera', '/Success', '/Failure'];
-  // 패딩 없앨 경로
-  const noVerticalPaddingPaths = ['/Camera', '/Success', '/Failure'];
-=======
   const hideNavigatorPaths = ['/Camera', '/Success', '/Failure', '/login', '/'];
   // 위아래 패딩 없앨 경로
   const noVerticalPaddingPaths = ['/Camera', '/Success', '/Failure', '/'];
->>>>>>> develop
   const noVerticalPadding = noVerticalPaddingPaths.includes(location.pathname);
   const noHorizontalPadding = noVerticalPadding;
 

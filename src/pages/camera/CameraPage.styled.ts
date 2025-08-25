@@ -151,7 +151,7 @@ export const WarningPopup = styled.div`
   max-height: 65vh; /* 팝업 최대 높이 제한 */
   background-color: #FCFCFC;
   border-radius: 25px 25px 0 0;
-  padding: 38px 10px;
+  padding: 38px 20px;
   z-index: 100;
   text-align: center;
   overflow-y: auto;

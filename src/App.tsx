@@ -18,13 +18,18 @@ function AppContent() {
 
   // 네비게이터 숨길 경로
   const hideNavigatorPaths = ['/Camera', '/Success', '/Failure'];
-  // 위아래 패딩 없앨 경로
+  // 패딩 없앨 경로
   const noVerticalPaddingPaths = ['/Camera', '/Success', '/Failure'];
   const noVerticalPadding = noVerticalPaddingPaths.includes(location.pathname);
+  const noHorizontalPadding = noVerticalPadding;
 
   return (
     <>
-      <Layout noVerticalPadding={noVerticalPadding}>
+      <Layout 
+        noVerticalPadding={noVerticalPadding}
+        noHorizontalPadding={noHorizontalPadding}
+      >
+        
         <Routes>
           <Route path="/Home" element={<MainPage />} />
           <Route path="/Camera" element={<CameraPage />} />

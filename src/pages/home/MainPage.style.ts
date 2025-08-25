@@ -214,7 +214,7 @@ export const NewsItem = styled.li`
   align-items: center;
   background: #F0F1F3;
   border-radius: 12px;
-  padding: 12px 12px;
+  padding: 12px 20px;
   height: 77px;
 `;
 

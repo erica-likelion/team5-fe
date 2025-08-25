@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { analyzeImage } from '../../api/camera';
 import {
-  MainContent,
   Overlay,
   Container,
   Video,

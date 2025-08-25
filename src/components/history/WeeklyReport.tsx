@@ -22,7 +22,7 @@ type WeeklyReportProps = {
 
 const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3'];
 
-const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
+const WeeklyReport = ({ data}: WeeklyReportProps) => {
   // ✅ 여기서 totalPoints로 다음 티어/잔여 포인트 계산
 
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림

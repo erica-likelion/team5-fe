@@ -6,7 +6,7 @@ import * as S from './Login.styled';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string;
+  const API_BASE_URL = import.meta.env.VITE_URL as string;
 
   const [form] = useState({ username: '', password: '' });
   const [loading, setLoading] = useState(false);

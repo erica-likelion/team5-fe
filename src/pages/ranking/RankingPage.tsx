@@ -19,7 +19,7 @@ type UserInfo = {
 
 export function RankingPage() {
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE_URL = import.meta.env.VITE_URL;
 ;
 
   const [selectedRanking, setSelectedRanking] = useState<RankingType>('individual');
@@ -37,7 +37,7 @@ export function RankingPage() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/8`, {
+        const res = await axios.get(`${API_BASE_URL}/api/users/7`, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("access_token")}`, // 저장된 토큰 사용
@@ -53,8 +53,8 @@ export function RankingPage() {
           campus: data.campus ?? "",
           college: data.college ?? "",
         });
-      } catch (err) {
-        console.error("사용자 정보 불러오기 실패:", err);
+      } catch {
+        setError('사용자 정보를 불러오는 데 실패했습니다.');
       }
     };
     fetchUserInfo();

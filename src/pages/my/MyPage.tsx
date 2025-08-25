@@ -33,7 +33,7 @@ export const MyPage = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  const userId = 8; //더미
+  const userId = 7; //더미
   
   // 더미데이터
   const user = {

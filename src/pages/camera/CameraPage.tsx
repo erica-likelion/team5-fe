@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { analyzeImage } from '../../api/camera';
 import {
+  MainContent,
+  Overlay,
   Container,
   Video,
   Canvas,
@@ -38,7 +40,11 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const navigate = useNavigate();
+  const noShowKey = 'hideCameraTip';
+
+
   const dummyuserId = "7";
+
 
   // 카메라 스트림 시작
   useEffect(() => {
@@ -72,10 +78,24 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
   };
 
   const noShowWarningPopup = () => {
-    // 7일간 다시 보지 않기 로직 구현 시 localStorage 등에 상태 저장
-    setShowWarningPopup(false);
-    // localStorage.setItem('hideCameraTip', Date.now() + 7 * 24 * 60 * 60 * 1000);
+  // 7일 후 만료 타임스탬프 저장
+  const weekLater = Date.now() + 7 * 24 * 60 * 60 * 1000;
+  localStorage.setItem('hideCameraTip', weekLater.toString());
+  setShowWarningPopup(false);
   };
+
+  useEffect(() => {
+    const hideUntil = localStorage.getItem('hideCameraTip');
+    if (hideUntil) {
+      const hideUntilTime = parseInt(hideUntil, 10);
+      if (Date.now() < hideUntilTime) {
+        setShowWarningPopup(false);
+      } else {
+        localStorage.removeItem('hideCameraTip');
+        setShowWarningPopup(true);
+      }
+    }
+  }, []);
 
   // 사진 촬영 및 백엔드 전송
   const capturePhoto = async () => {
@@ -126,70 +146,74 @@ export const CameraPage: React.FC<CameraPageProps> = () => {
 };
 
   return (
-    <Container>
-      {/* 비디오(카메라 화면) */}
-      <Video ref={videoRef} autoPlay playsInline muted />
+    <>
+    {/* 팝업이 있을 때 어두운 배경 처리 */}
+    <Overlay visible={showWarningPopup} />
+      <Container>
+        {/* 비디오(카메라 화면) */}
+        <Video ref={videoRef} autoPlay playsInline muted />
 
-      {/* 캔버스 */}
-      <Canvas ref={canvasRef} style={{ display: 'none' }} />
+        {/* 캔버스 */}
+        <Canvas ref={canvasRef} style={{ display: 'none' }} />
 
-      {/* 프레임 오버레이 */}
-      <FrameOverlay>
-        <FrameText>
-          화면에 용기를<br />
-          알맞게 맞춰주세요.
-        </FrameText>
-        <Corner top left />
-        <Corner top right />
-        <Corner bottom left />
-        <Corner bottom right />
-        <CupImage src={cupImg} alt="컵" />
-      </FrameOverlay>
+        {/* 프레임 오버레이 */}
+        <FrameOverlay>
+          <FrameText>
+            화면에 용기를<br />
+            알맞게 맞춰주세요.
+          </FrameText>
+          <Corner top left />
+          <Corner top right />
+          <Corner bottom left />
+          <Corner bottom right />
+          <CupImage src={cupImg} alt="컵" />
+        </FrameOverlay>
 
-      {/* 촬영 버튼 */}
-      <CaptureButton onClick={capturePhoto} disabled={isLoading} />
+        {/* 촬영 버튼 */}
+        <CaptureButton onClick={capturePhoto} disabled={isLoading} />
 
-      {showWarningPopup && (
-        <WarningPopup>
-          <PopupHeader>
-            <PopupCameraIcon src={cameraIcon} alt="촬영 팁" />
-            <PopupTitle>촬영 전 Tip!</PopupTitle>
-          </PopupHeader>
-          <TipList>
-            <TipItem>
-              <TipIcon src={tipIcon1} alt="" />
-              <div>
-                <TipContent>내용물을 완전히 비운 뒤 촬영해주세요.</TipContent>
-              </div>
-            </TipItem>
-            <TipItem>
-              <TipIcon src={tipIcon2} alt="" />
-              <div>
-                <TipContent>자연광 혹은 조명이 있는 곳에서 촬영해 주세요.</TipContent>
-                <SubText>* 강한 직광이나 조명이 비치는 경우에는 비스듬히 찍어주세요.</SubText>
-              </div>
-            </TipItem>
-            <TipItem>
-              <TipIcon src={tipIcon3} alt="" />
-              <div>
-                <TipContent>단색 배경 혹은 깔끔한 곳에서 촬영해 주세요.</TipContent>
-              </div>
-            </TipItem>
-            <TipItem>
-              <TipIcon src={tipIcon4} alt="" />
-              <div>
-                <TipContent>물체 전체가 프레임 안에 들어오도록 해주세요.</TipContent>
-                <SubText>
-                  * 정면 또는 살짝 위에서 45도 각도로 촬영하는 것이 가장 좋아요.
-                </SubText>
-              </div>
-            </TipItem>
-          </TipList>
-          <PopupCloseButton onClick={closeWarningPopup}>확인했어요.</PopupCloseButton>
-          <PopupNoShowButton onClick={noShowWarningPopup}>7일간 다시 보지 않기</PopupNoShowButton>
-        </WarningPopup>
-      )}
-    </Container>
+        {showWarningPopup && (
+          <WarningPopup>
+            <PopupHeader>
+              <PopupCameraIcon src={cameraIcon} alt="촬영 팁" />
+              <PopupTitle>촬영 전 Tip!</PopupTitle>
+            </PopupHeader>
+            <TipList>
+              <TipItem>
+                <TipIcon src={tipIcon1} alt="" />
+                <div>
+                  <TipContent>내용물을 완전히 비운 뒤 촬영해주세요.</TipContent>
+                </div>
+              </TipItem>
+              <TipItem>
+                <TipIcon src={tipIcon2} alt="" />
+                <div>
+                  <TipContent>자연광 혹은 조명이 있는 곳에서 촬영해 주세요.</TipContent>
+                  <SubText>* 강한 직광이나 조명이 비치는 경우에는 비스듬히 찍어주세요.</SubText>
+                </div>
+              </TipItem>
+              <TipItem>
+                <TipIcon src={tipIcon3} alt="" />
+                <div>
+                  <TipContent>단색 배경 혹은 깔끔한 곳에서 촬영해 주세요.</TipContent>
+                </div>
+              </TipItem>
+              <TipItem>
+                <TipIcon src={tipIcon4} alt="" />
+                <div>
+                  <TipContent>물체 전체가 프레임 안에 들어오도록 해주세요.</TipContent>
+                  <SubText>
+                    * 정면 또는 살짝 위에서 45도 각도로 촬영하는 것이 가장 좋아요.
+                  </SubText>
+                </div>
+              </TipItem>
+            </TipList>
+            <PopupCloseButton onClick={closeWarningPopup}>확인했어요.</PopupCloseButton>
+            <PopupNoShowButton onClick={noShowWarningPopup}>7일간 다시 보지 않기</PopupNoShowButton>
+          </WarningPopup>
+        )}
+      </Container>
+    </>
   );
 };
 

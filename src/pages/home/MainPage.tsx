@@ -1,7 +1,7 @@
 import * as S from "./MainPage.style";
 import profileImg from "@assets/common/profile-pic.svg";
 import rightArrow from "@assets/common/rightArrow.svg";
-import { personalTiers, calculateTierAndRemaining } from "../../utils/TierLogic";
+import { personalTiers, calculateTierAndPercentage } from "../../utils/PercentLogic";
 import { useNavigate } from 'react-router-dom';
 
 // 더미 유저 데이터
@@ -53,7 +53,7 @@ const newsList = [
 
 export const MainPage = () => {
   const navigate = useNavigate();
-  const { currentTier, nextTier, fillpercentage } = calculateTierAndRemaining(
+  const { currentTier, nextTier, fillPercentage } = calculateTierAndPercentage(
     userData.points,
     personalTiers
   );
@@ -76,7 +76,7 @@ export const MainPage = () => {
 
           {/* 게이지바 */}
           <S.ProgressBarContainer>
-            <S.ProgressBar width={fillpercentage} color={nextTier?.color || currentTier.color} />
+            <S.ProgressBar width={fillPercentage} color={nextTier ? "#42B68F" : "#FBFBFB"} />
           </S.ProgressBarContainer>
         </S.ProfileInfo>
       </S.ProfileSection>

@@ -19,7 +19,8 @@ type UserInfo = {
 
 export function RankingPage() {
 
-  const API_BASE_URL = import.meta.env.VITE_URL;
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+;
 
   const [selectedRanking, setSelectedRanking] = useState<RankingType>('individual');
   const [rankingData, setRankingData] = useState<any[]>([]);

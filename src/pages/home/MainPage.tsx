@@ -53,7 +53,7 @@ const newsList = [
 
 export const MainPage = () => {
   const navigate = useNavigate();
-  const { currentTier, nextTier, fillPercentage } = calculateTierAndRemaining(
+  const { currentTier, nextTier, fillpercentage } = calculateTierAndRemaining(
     userData.points,
     personalTiers
   );
@@ -76,7 +76,7 @@ export const MainPage = () => {
 
           {/* 게이지바 */}
           <S.ProgressBarContainer>
-            <S.ProgressBar width={fillPercentage} color={nextTier?.color || currentTier.color} />
+            <S.ProgressBar width={fillpercentage} color={nextTier?.color || currentTier.color} />
           </S.ProgressBarContainer>
         </S.ProfileInfo>
       </S.ProfileSection>

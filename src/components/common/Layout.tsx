@@ -14,8 +14,8 @@ export const Layout = ({
 }: LayoutProps) => {
   return (
     <LayoutContainer
-      noVerticalPadding={noVerticalPadding}
-      noHorizontalPadding={noHorizontalPadding}
+      $noVerticalPadding={noVerticalPadding}
+      $noHorizontalPadding={noHorizontalPadding}
     >
       {children}
     </LayoutContainer>

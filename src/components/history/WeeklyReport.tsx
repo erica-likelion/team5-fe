@@ -10,21 +10,29 @@ import {
   Cell,
 } from 'recharts';
 import styles from './WeeklyReport.module.css';
+import { personalTiers, calculateTierAndRemaining } from '@utils/TierLogic';
+import { useMemo } from 'react';
 
-// ✅ 로컬 인터페이스 삭제하고, 공용 타입을 import
+// 공용 타입
 import type { WeeklyData } from '../../pages/history/types';
 
-// ✅ 명시적 props 타입 정의
 type WeeklyReportProps = {
   data: WeeklyData;
+  /** 현재 사용자 총 포인트 (히스토리 페이지에서 전달) */
+  totalPoints: number;
 };
 
 const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3'];
 
-const WeeklyReport = ({ data }: WeeklyReportProps) => {
+const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
+  // ✅ 여기서 totalPoints로 다음 티어/잔여 포인트 계산
+  const { nextTier, remainingPoints } = useMemo(
+    () => calculateTierAndRemaining(totalPoints, personalTiers),
+    [totalPoints]
+  );
+
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림
   const chartData = (data.rewardsByDay ?? []).map(d => ({ ...d, trend: d.reward }));
-  console.log(chartData)
 
   return (
     <div className={styles.container}>
@@ -55,7 +63,6 @@ const WeeklyReport = ({ data }: WeeklyReportProps) => {
             <YAxis hide />
             <Tooltip
               cursor={{ fill: 'rgba(0,0,0,0.04)' }}
-              // v는 unknown으로 들어올 수 있어서 number 캐스팅 처리
               formatter={(v: unknown) => [`${Number(v ?? 0).toLocaleString()}P`, '포인트']}
               labelStyle={{ color: '#444' }}
               contentStyle={{ borderRadius: 8, border: '1px solid #e5e7eb' }}
@@ -82,8 +89,9 @@ const WeeklyReport = ({ data }: WeeklyReportProps) => {
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>
           <p>
-            다음 단계{data.nextTierName ? `(${data.nextTierName})` : ''}까지{' '}
-            {(data.remainingToNext ?? 0).toLocaleString()}P 남았어요.
+            {/* ✅ 주간 데이터에 있던 nextTierName/remainingToNext 대신 계산값 사용 */}
+            다음 단계{nextTier ? `(${nextTier.name})` : ''}까지{' '}
+            {Math.max(0, remainingPoints).toLocaleString()}P 남았어요.
           </p>
         </div>
         <div className={styles.summaryItem}>

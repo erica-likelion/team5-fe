@@ -11,6 +11,8 @@ import { mapToHistoryByDate } from "./mapHistory";
 import { getMonthWeekAnchorsFor, buildWeeklyData} from "./mapHistory";
 import type { HistoryByDate, ViewType, WeeklyData } from "./types";
 
+
+
 import api from '../../api/axios';  
 
 export function HistoryPage() {
@@ -32,6 +34,8 @@ export function HistoryPage() {
   const [monthError, setMonthError] = useState<string|null>(null);
 
   const userId = 8; // TODO: 실제 로그인 사용자 ID로 대체
+
+  
 
   // 1) 유저 API 호출 (/api/users/{id})
   useEffect(() => {
@@ -66,9 +70,7 @@ export function HistoryPage() {
       // 총합 후보: pointsTotal → 없으면 points
       const currentTotal = Number((user as any).pointsTotal ?? (user as any).points ?? 0);
 
-      console.log("Current Total Points:", res.data);
       const mapped = mapToHistoryByDate(res.data.history, currentTotal); // ✅ 전달
-      console.log("Mapped History Data:", mapped);
       setHistoryData(mapped);
     } catch (e: any) {
       setError(e?.response?.data?.message || '히스토리 불러오기 실패');
@@ -98,23 +100,23 @@ export function HistoryPage() {
       const pairs = await Promise.all(
         anchors.map(async (a) => {
           const data = await buildWeeklyData(userId, a, { restrictToMonth: monthNum });
-          console.log('data', data);
           return { anchor: a, data };
           
         })
       );
+      console.log("pairs:", pairs);
 
       // ✅ 최신이 위로: 앵커 날짜 내림차순
       pairs.sort((a, b) => b.anchor.getTime() - a.anchor.getTime());
 
       setMonthWeekly(pairs.map(p => p.data));
-      console.log("Month Weekly Data:", pairs.map(p => p.data));
     } catch (e: any) {
       setMonthError(e?.response?.data?.message || "이번 달 주간 데이터 불러오기 실패");
     } finally {
       setMonthLoading(false);
     }
   };
+  
 
   run();
 }, [view, userId]);
@@ -124,8 +126,7 @@ const handleBadgeClick = () => {
   // TODO: 뱃지 화면 라우팅
   console.log("뱃지 화면으로 이동!");
 };
-
-
+  const safeTotalPoints = Number(user?.pointsTotal ?? user?.pointsTotal ?? 0);
 
   return (
     <div className={styles.container}>
@@ -159,7 +160,7 @@ const handleBadgeClick = () => {
         ) : (
           <div className={styles.weekList}>
             {monthWeekly.map((wd, i) => (
-              <WeeklyReport key={`${wd.month}-${wd.week}-${i}`} data={wd} />
+              <WeeklyReport key={`${wd.month}-${wd.week}-${i}`} data={wd} totalPoints={safeTotalPoints} />
             ))}
           </div>
         )

@@ -88,6 +88,7 @@ export interface DailyActivity {
   activityDate: string; // 'YYYY-MM-DD'
   totalPoints: number;
   activitiesCount: number;
+  totalPointsEarned: number
 }
 
 type BackendDailyActivityResponse = {
@@ -108,6 +109,8 @@ export async function fetchDailyActivity(
   const url = `/api/activities/user/${userId}/daily/${encodeURIComponent(dateISO)}`; // ✅ 백틱, 인코딩
   const res = await api.get<BackendDailyActivityResponse>(url);
 
+  console.log('res', res.data);
+  console.log('res2', res.data.data);
   if (!res.data?.success || !res.data?.data) {
     throw new Error("일간 활동 조회 실패");
   }

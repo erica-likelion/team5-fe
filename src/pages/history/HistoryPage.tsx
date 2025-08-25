@@ -98,7 +98,9 @@ export function HistoryPage() {
       const pairs = await Promise.all(
         anchors.map(async (a) => {
           const data = await buildWeeklyData(userId, a, { restrictToMonth: monthNum });
+          console.log('data', data);
           return { anchor: a, data };
+          
         })
       );
 
@@ -106,6 +108,7 @@ export function HistoryPage() {
       pairs.sort((a, b) => b.anchor.getTime() - a.anchor.getTime());
 
       setMonthWeekly(pairs.map(p => p.data));
+      console.log("Month Weekly Data:", pairs.map(p => p.data));
     } catch (e: any) {
       setMonthError(e?.response?.data?.message || "이번 달 주간 데이터 불러오기 실패");
     } finally {

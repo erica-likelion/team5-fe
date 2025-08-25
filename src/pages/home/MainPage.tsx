@@ -10,7 +10,7 @@ import { getRecentEarnedHistories, type PointHistory } from "../../api/history";
 import { getRecentNews, type News } from "../../api/history";
 
 // 더미 userId (실서비스에서는 로그인 사용자 id로 교체)
-const userId = 8;
+const userId = 7;
 
 export const MainPage = () => {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ export const MainPage = () => {
   const [recentNews, setRecentNews] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+
 
   useEffect(() => {
     (async () => {
@@ -60,6 +62,8 @@ export const MainPage = () => {
   // 프로그레스바 색상: nextTier 있으면 강조색, 없으면 기본색
   const progressColor = (nextTier as any)?.color || (currentTier as any)?.color || "#42B68F";
 
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   return (
     <S.Container>
       {/* 상단 프로필 영역 */}
@@ -92,12 +96,18 @@ export const MainPage = () => {
           <S.HistoryCard key={item.id}>
             <S.HistoryTop>
               {/* 히스토리 로고 (이미지 URL 제공 시 노출) */}
-              <S.HistoryLogo src={item.image?.url ?? ""} alt={item.wasteType ?? "logo"} />
+              <S.HistoryLogo 
+                src={item.image?.url ? `${API_BASE_URL}${item.image.url}` : ""} 
+                alt={item.wasteType ?? "logo"} 
+              />
+
               <S.HistoryBrandInfo>
                 {/* wasteType을 브랜드/타입 라벨로 사용 */}
                 <S.HistoryBrand>{item.wasteType ?? "기타"}</S.HistoryBrand>
                 {/* 생성시각 */}
-                <S.HistoryMeta>{new Date(item.createdAt).toLocaleString()}</S.HistoryMeta>
+                <S.HistoryMeta>
+  {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+</S.HistoryMeta>
               </S.HistoryBrandInfo>
             </S.HistoryTop>
 

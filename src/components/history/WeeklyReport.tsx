@@ -1,5 +1,4 @@
 // src/components/history/WeeklyReport.tsx
-import React from 'react';
 import {
   ComposedChart,
   Bar,
@@ -12,24 +11,19 @@ import {
 } from 'recharts';
 import styles from './WeeklyReport.module.css';
 
-interface WeeklyData {
-  month: number;
-  week: number;
-  rewardsByDay: { day: string; reward: number }[];
-  totalRewards: number;
-  totalCollections: number;
-  newBadge: string;
-}
+// ✅ 로컬 인터페이스 삭제하고, 공용 타입을 import
+import type { WeeklyData } from '../../pages/history/types';
 
-interface WeeklyReportProps {
+// ✅ 명시적 props 타입 정의
+type WeeklyReportProps = {
   data: WeeklyData;
-}
+};
 
-const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3']; // 연~진 민트 4톤
+const mintPalette = ['#bfeee0', '#13c29a', '#10b089', '#a4e3d3'];
 
 const WeeklyReport = ({ data }: WeeklyReportProps) => {
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림
-  const chartData = data.rewardsByDay.map(d => ({ ...d, trend: d.reward }));
+  const chartData = (data.rewardsByDay ?? []).map(d => ({ ...d, trend: d.reward }));
 
   return (
     <div className={styles.container}>
@@ -50,7 +44,6 @@ const WeeklyReport = ({ data }: WeeklyReportProps) => {
             barCategoryGap={0}
             barGap={0}
           >
-            {/* X축: 아래 라인만, 눈금/축 라벨 최소화 */}
             <XAxis
               dataKey="day"
               axisLine={{ stroke: '#cfcfcf', strokeWidth: 2 }}
@@ -58,34 +51,19 @@ const WeeklyReport = ({ data }: WeeklyReportProps) => {
               tick={false}
               tickMargin={0}
             />
-            
-            {/* Y축 숨김 (값 숫자는 안 보여줌) */}
             <YAxis hide />
-
             <Tooltip
               cursor={{ fill: 'rgba(0,0,0,0.04)' }}
-              formatter={(v: number) => [`${v.toLocaleString()}P`, '포인트']}
+              // v는 unknown으로 들어올 수 있어서 number 캐스팅 처리
+              formatter={(v: unknown) => [`${Number(v ?? 0).toLocaleString()}P`, '포인트']}
               labelStyle={{ color: '#444' }}
-              contentStyle={{
-                borderRadius: 8,
-                border: '1px solid #e5e7eb',
-              }}
+              contentStyle={{ borderRadius: 8, border: '1px solid #e5e7eb' }}
             />
-
-            {/* 막대: 라운드, 간격 좁게, 파레트 순환 */}
-            <Bar
-              dataKey="reward"
-              barSize={32}
-              radius={0}
-              maxBarSize={32}
-              
-            >
+            <Bar dataKey="reward" barSize={32} radius={0} maxBarSize={32}>
               {chartData.map((_, i) => (
                 <Cell key={`bar-${i}`} fill={mintPalette[i % mintPalette.length]} />
               ))}
             </Bar>
-
-            {/* 라인: 점 없이 얇은 선으로 추이만 */}
             <Line
               type="monotone"
               dataKey="trend"
@@ -102,7 +80,10 @@ const WeeklyReport = ({ data }: WeeklyReportProps) => {
       <div className={styles.reportSummary}>
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>
-          <p>다음 단계까지 6,839P 남았어요.</p>
+          <p>
+            다음 단계{data.nextTierName ? `(${data.nextTierName})` : ''}까지{' '}
+            {(data.remainingToNext ?? 0).toLocaleString()}P 남았어요.
+          </p>
         </div>
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>

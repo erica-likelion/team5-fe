@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getUser, type User } from "../../api/user";
 import { getRecentEarnedHistories, type PointHistory } from "../../api/history";
 import { getRecentNews, type News } from "../../api/history";
+import badge from "@assets/badge.svg"
 
 // 더미 userId (실서비스에서는 로그인 사용자 id로 교체)
 const userId = 7;
@@ -95,7 +96,7 @@ export const MainPage = () => {
             <S.HistoryTop>
               {/* 히스토리 로고 (이미지 URL 제공 시 노출) */}
               <S.HistoryLogo 
-                src={item.image?.url ? `${API_BASE_URL}${item.image.url}` : ""} 
+                src={badge}
                 alt={item.wasteType ?? "logo"} 
               />
 

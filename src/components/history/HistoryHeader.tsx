@@ -21,13 +21,13 @@ interface HistoryHeaderProps {
 }
 
 const levelMap: { [key: number]: string } = {
-  0: '씨앗',
-  1: '새싹',
-  2: '떡잎',
-  3: '어린나무',
-  4: '큰 나무',
-  5: '숲',
-  6: '울창한 숲',
+  1: '씨앗',
+  2: '새싹',
+  3: '떡잎',
+  4: '어린나무',
+  5: '큰 나무',
+  6: '숲',
+  7: '울창한 숲',
 };
 
 const HistoryHeader: React.FC<HistoryHeaderProps> = ({ user, badges = 0, onBadgeClick }) => {

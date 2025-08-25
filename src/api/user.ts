@@ -6,7 +6,8 @@ export interface User {
   id: number;
   username: string;
   email: string;
-  name: string;
+  nickname: string;
+  school: string;
   level: number;
   pointsTotal: number;
   college: string;

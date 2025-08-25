@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 // 전체 컨테이너
 export const Container = styled.div`
-  padding: 0px 21px 0px 21px;
   min-height: calc(100vh - 100px); // 네비게이션바 높이만큼 빼기
 `;
 
@@ -125,7 +124,7 @@ export const HistoryTop = styled.div`
   margin-bottom: 13px;
 `;
 
-export const HistoryLogo = styled.div`
+export const HistoryLogo = styled.img`
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -137,21 +136,23 @@ export const HistoryLogo = styled.div`
   margin-right: 9px;
 `;
 
+
 export const HistoryBrandInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
 
-export const HistoryBrand = styled.div`
+export const HistoryBrand = styled.div<{ type?: string }>`
   font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: 140%; /* 25.2px */
-letter-spacing: -0.54px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 140%;
+  letter-spacing: -0.54px;
   color: #212529;
   margin-bottom: 2px;
 `;
+
 
 export const HistoryMeta = styled.div`
   font-size: 10px;
@@ -206,10 +207,10 @@ export const NewsList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  list-style: none;
 `;
 
 export const NewsItem = styled.li`
-  display: flex;
   align-items: center;
   background: #F0F1F3;
   border-radius: 12px;

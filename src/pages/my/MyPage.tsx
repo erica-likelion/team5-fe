@@ -91,7 +91,7 @@ export const MyPage = () => {
       </ProfileSection>
       <CoinSection>
         <CoinIcon src={coin} alt="Coin" />
-        <CoinValue>{user.coin.toLocaleString()}</CoinValue>
+        <CoinValue>{userData.pointsTotal}</CoinValue>
       </CoinSection>
       <CardSection>
         <Card>

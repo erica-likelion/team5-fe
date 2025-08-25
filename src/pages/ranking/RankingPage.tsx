@@ -37,12 +37,7 @@ export function RankingPage() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/7`, {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${ACCESS_TOKEN}`, // 고정된 토큰 사용
-          },
-        });
+        const res = await axios.get(`${API_BASE_URL}/api/users/7`);
         const data = res.data?.data ?? res.data; // API 응답 구조에 따라
         console.log("사용자 정보:", res);
         setUserInfo({

@@ -21,10 +21,15 @@ function App() {
   // 위아래 패딩 없앨 경로
   const noVerticalPaddingPaths = ['/Camera', '/Success', '/Failure', '/'];
   const noVerticalPadding = noVerticalPaddingPaths.includes(location.pathname);
+  const noHorizontalPadding = noVerticalPadding;
 
   return (
     <>
-      <Layout noVerticalPadding={noVerticalPadding}>
+      <Layout 
+        noVerticalPadding={noVerticalPadding}
+        noHorizontalPadding={noHorizontalPadding}
+      >
+        
         <Routes>
           <Route path="/" element={<Splash />} />
           <Route path="/Home" element={<MainPage />} />

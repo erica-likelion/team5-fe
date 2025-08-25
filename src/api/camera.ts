@@ -1,5 +1,5 @@
-// src/api/tacoApi.ts
-import apiClient from "./apiClient";
+// src/api/camera.ts
+import apiClient from "./axios";
 import axios from "axios";
 
 export async function analyzeImage(file: File, userId: string): Promise<{ isRecyclable: boolean }> {

@@ -122,61 +122,6 @@ export function getWeekDates(anchor: Date) {
   });
 }
 
-// /** 다음 단계까지 남은 포인트 (유틸 사용) */
-// export function calcPointsToNextStage(currentPoints: number): number {
-//   const { remainingPoints } = calculateTierAndRemaining(currentPoints, personalTiers);
-//   return remainingPoints; // 0 이상 보장
-// }
-
-// /** 주차 마지막 기록 기준 잔여 포인트 계산
-//  * @param weekItems   그 주에 속한 활동들(해당 주의 createdAt으로 필터링된 배열)
-//  * @param latestTotal 화면에서 알고 있는 '최신 계정 누적 포인트'(예: /api/users/{id}.pointsTotal)
-//  * @returns { remainingPoints, nextTierName, lastTotalPoints }
-//  */
-// export function computeWeeklyRemainingFromActivities(
-//   weekItems: BackendPointItem[],
-//   latestTotal: number
-// ) {
-//   if (!Array.isArray(weekItems) || weekItems.length === 0) {
-//     return { remainingPoints: 0, nextTierName: null, lastTotalPoints: 0 };
-//   }
-
-//   // 최신 → 과거 정렬 (가장 최근 기록부터)
-//   const sorted = [...weekItems].sort(
-//     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-//   );
-
-//   // 최신 누적값(latestTotal)에서 주차 내 이벤트만큼 '되감기' 하며
-//   // 주차 "마지막(=가장 과거) 기록"에서의 누적 포인트를 복원
-//   let running = Number(latestTotal) || 0;
-
-//   // 최신 기록부터 하나씩 되감기
-//   for (const it of sorted) {
-//     // 이 이벤트가 반영되기 '직전' 누적값으로 되돌리려면 delta를 빼야 하므로,
-//     // 먼저 delta를 구한다.
-//     let delta = Number(it.points ?? 0);
-//     if (it.type === 'USED' && delta > 0) delta = -delta; // 사용이면 음수화
-//     // 현재 running은 "이 이벤트까지 모두 반영된 값"이므로,
-//     // 과거로 한 스텝 이동 = running -= delta
-//     running -= delta;
-//   }
-
-//   // running은 이제 "그 주차 마지막(가장 과거) 기록 '직전' 값".
-//   // 하지만 우리가 원하는 건 "그 주차 마지막 '기록 이후'의 누적값"이므로,
-//   // 마지막 항목의 delta를 다시 더해 최종 누적을 만든다.
-//   let lastDelta = Number(sorted[sorted.length - 1].points ?? 0);
-//   if (sorted[sorted.length - 1].type === 'USED' && lastDelta > 0) lastDelta = -lastDelta;
-//   const lastTotalPoints = running + lastDelta;
-
-//   const { remainingPoints, nextTier } =
-//     calculateTierAndRemaining(lastTotalPoints, personalTiers);
-
-//   return {
-//     remainingPoints,
-//     nextTierName: nextTier?.name ?? null,
-//     lastTotalPoints,
-//   };
-// }
 
 
 /** n주차 계산 (간단 버전): 월 기준 n주차 */

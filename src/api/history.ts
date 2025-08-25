@@ -175,6 +175,8 @@ export interface DailyActivity {
   totalPoints: number;
   activitiesCount: number;
   totalPointsEarned: number
+  recyclingCount: number;
+  dailyActivity: number;
 }
 
 type BackendDailyActivityResponse = {

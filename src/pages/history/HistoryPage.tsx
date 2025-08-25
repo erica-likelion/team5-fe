@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import HistoryHeader, { type UserProps } from '../../components/history/HistoryHeader';
 import HistoryList from '../../components/history/HistoryList';
 import ViewToggle from '../../components/history/ViewToggle';
@@ -31,7 +31,7 @@ export function HistoryPage() {
   const [monthLoading, setMonthLoading] = useState(false);
   const [monthError, setMonthError] = useState<string|null>(null);
 
-  const userId = 7; // TODO: 실제 로그인 사용자 ID로 대체
+  const userId = 8; // TODO: 실제 로그인 사용자 ID로 대체
 
   // 1) 유저 API 호출 (/api/users/{id})
   useEffect(() => {
@@ -43,6 +43,7 @@ export function HistoryPage() {
           `/api/users/${userId}`
         );
         setUser(res.data.data); // ✅ 응답 래퍼에서 data만 추출
+        console.log("Fetched User:", res.data.data);
       } catch (e: any) {
         setUserError(e?.response?.data?.message || '사용자 정보 불러오기 실패');
       } finally {
@@ -63,10 +64,11 @@ export function HistoryPage() {
     try {
       const res = await api.get(`/api/points/user/${userId}/type/all`);
       // 총합 후보: pointsTotal → 없으면 points
-      const currentTotal =
-        Number((user as any).pointsTotal ?? (user as any).points ?? 0);
+      const currentTotal = Number((user as any).pointsTotal ?? (user as any).points ?? 0);
 
-      const mapped = mapToHistoryByDate(res.data, currentTotal); // ✅ 전달
+      console.log("Current Total Points:", res.data);
+      const mapped = mapToHistoryByDate(res.data.history, currentTotal); // ✅ 전달
+      console.log("Mapped History Data:", mapped);
       setHistoryData(mapped);
     } catch (e: any) {
       setError(e?.response?.data?.message || '히스토리 불러오기 실패');

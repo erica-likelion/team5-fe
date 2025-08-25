@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import { Layout } from '@components/common/Layout';
 import { Splash } from '@components/common/Splash';

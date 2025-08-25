@@ -19,7 +19,7 @@ type UserInfo = {
 
 export function RankingPage() {
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE_URL = import.meta.env.VITE_URL;
 
   const [selectedRanking, setSelectedRanking] = useState<RankingType>('individual');
   const [rankingData, setRankingData] = useState<any[]>([]);
@@ -36,13 +36,14 @@ export function RankingPage() {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/2`, {
+        const res = await axios.get(`${API_BASE_URL}/api/users/8`, {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("access_token")}`, // 저장된 토큰 사용
           },
         });
         const data = res.data?.data ?? res.data; // API 응답 구조에 따라
+        console.log("사용자 정보:", res);
         setUserInfo({
           id: data.id,
           name: data.name,
@@ -77,7 +78,8 @@ export function RankingPage() {
         }
 
         const res = await axios.get(url);
-        const rows = res?.data?.data?.rankings ?? [];
+        const rows = res?.data?.data.rankings ?? [];
+      
 
         // 공통 형태로 정규화
         const normalized = rows.map((r: any) => {
@@ -125,7 +127,7 @@ export function RankingPage() {
     
     const myPoints = Number(userInfo?.points ?? 0);
     const { currentTier, remainingPoints } = useMemo(() => {return calculateTierAndRemaining(myPoints, personalTiers);}, [myPoints]);
-  
+
 
     return (
       <div>

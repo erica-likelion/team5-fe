@@ -34,7 +34,6 @@ type Tier = { name: string; minPoints: number };
 export const calculateTierAndRemaining = (
   userPoints: number,
   tiers: Tier[]
-
 ) => {
   // 방어적으로 복사 후 minPoints 오름차순 정렬 (tiers가 뒤섞여 있어도 안전)
   const sorted = [...tiers].sort((a, b) => a.minPoints - b.minPoints);
@@ -55,7 +54,7 @@ export const calculateTierAndRemaining = (
   // (옵션) 다음 티어까지 총 필요 포인트
   const totalToNext = nextTier ? nextTier.minPoints - currentTier.minPoints : 0;
 
-  return { currentTier, nextTier, remainingPoints, totalToNext, fillpercentage };
+  return { currentTier, nextTier, remainingPoints, totalToNext };
 };
 
 // (원하면 숫자만 바로 받을 수 있게 헬퍼도 제공)

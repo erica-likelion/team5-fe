@@ -9,42 +9,42 @@ const rankColors = {
 
 const userBarColor = '#42B68F';
 
-export const Container = styled.div<{ rank: number; isUserBar?: boolean }>`
+export const Container = styled.div<{ $rank: number; $isuserbar?: boolean }>`
   height: 90px;
   border-radius: 9px;
   position: relative;
   background-color: ${props => {
-    if (props.isUserBar) {
+    if (props.$isuserbar) {
       return userBarColor; // Use the fixed color for the user bar
     }
-    if (props.rank === 1) return rankColors[1];
-    if (props.rank === 2) return rankColors[2];
-    if (props.rank === 3) return rankColors[3];
+    if (props.$rank === 1) return rankColors[1];
+    if (props.$rank === 2) return rankColors[2];
+    if (props.$rank === 3) return rankColors[3];
     return rankColors.default;
   }};
-  color: ${props => (props.rank < 4 ? 'white' : '#757575')};
+  color: ${props => (props.$rank < 4 ? 'white' : '#757575')};
   margin-bottom: 9px;
 `;
 
-export const Box = styled.div<{ fillPercentage: number }>`
-  width: ${props => props.fillPercentage}%;
+export const Box = styled.div<{ $fillPercentage: number }>`
+  width: ${props => props.$fillPercentage}%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px
 `;
 
-export const ProgressBar = styled.div<{ fillPercentage: number }>`
+export const ProgressBar = styled.div<{ $fillPercentage: number }>`
   position: absolute;
   top: 0;
   right: 0;
   height: 100%;
-  width: ${props => 100 - props.fillPercentage}%;
+  width: ${props => 100 - props.$fillPercentage}%;
   background-color: rgba(255, 255, 255, 0.2);
   z-index: 0;
 
   ${props =>
-    props.fillPercentage < 100 &&
+    props.$fillPercentage < 100 &&
       css`
         background-image: linear-gradient(
           -45deg,

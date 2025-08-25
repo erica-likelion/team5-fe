@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import * as S from "./MainPage.style";
 import profileImg from "@assets/common/profile-pic.svg";
 import rightArrow from "@assets/common/rightArrow.svg";
-import { personalTiers, calculateTierAndPercentage } from "../../utils/TierLogic";
+import { personalTiers, calculateTierAndRemaining } from "../../utils/TierLogic";
 import { useNavigate } from 'react-router-dom';
 import { getUser, type User } from "../../api/user";
 import { getRecentEarnedHistories, type PointHistory } from "../../api/history";
@@ -58,6 +58,7 @@ const userId = 8;
 
 export const MainPage = () => {
   const navigate = useNavigate();
+<<<<<<< HEAD
   const [userData, setUserData] = useState<User | null>(null);
   const [recentHistories, setRecentHistories] = useState<PointHistory[]>([]);
   const [totalPoint, setTotalPoint] = useState<number>(0);
@@ -116,6 +117,10 @@ export const MainPage = () => {
 
   const { currentTier, nextTier, fillPercentage } = calculateTierAndPercentage(
     userData.pointsTotal,
+=======
+  const { currentTier, nextTier, fillpercentage } = calculateTierAndRemaining(
+    userData.points,
+>>>>>>> develop
     personalTiers
   );
 
@@ -135,7 +140,7 @@ export const MainPage = () => {
 
           {/* 게이지바 */}
           <S.ProgressBarContainer>
-            <S.ProgressBar width={fillPercentage} color={nextTier?.color || currentTier.color} />
+            <S.ProgressBar width={fillpercentage} color={nextTier?.color || currentTier.color} />
           </S.ProgressBarContainer>
         </S.ProfileInfo>
       </S.ProfileSection>

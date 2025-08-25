@@ -1,5 +1,5 @@
 import * as S from './ScoreBar.styled';
-import { calculateTierAndPercentage, personalTiers, campusTiers, departmentTiers } from '@utils/TierLogic';
+import { calculateTierAndRemaining, personalTiers, campusTiers, departmentTiers } from '@utils/TierLogic';
 
 interface ScoreBarProps {
   userName: string;
@@ -8,18 +8,20 @@ interface ScoreBarProps {
   department: string;
   tierType: 'individual' | 'campus' | 'department';
   rank: number;
-  isUserBar: boolean;
+  isuserbar: boolean;
 }
 
-const ScoreBar = ({ userName, userPoints, school, department, tierType, rank, isUserBar }: ScoreBarProps) => {
+const ScoreBar = ({ userName, userPoints, school, department, tierType, rank, isuserbar }: ScoreBarProps) => {
 
-  const fillPercentage =
-    rank === 1 ? 90 : rank === 2 ? 80 : rank === 3 ? 70 : 60;
+  const tiers = tierType === 'campus' ? campusTiers : tierType === 'department' ? departmentTiers : personalTiers;
+  const { currentTier} = calculateTierAndRemaining(userPoints, tiers);
+
+  const fillpercentage = rank === 1 ? 90 : rank === 2 ? 80 : rank === 3 ? 70 : 60;
 
 
   return (
-    <S.Container rank={rank} isUserBar={isUserBar}>
-      <S.Box fillPercentage={fillPercentage}>
+    <S.Container $rank={rank} $isuserbar={isuserbar}>
+      <S.Box $fillPercentage={fillpercentage}>
         <S.TextInfo>
           <S.Name>
             {userName}
@@ -31,11 +33,11 @@ const ScoreBar = ({ userName, userPoints, school, department, tierType, rank, is
           </S.Detail>
         </S.TextInfo>
         <S.ScoreInfo>
-          {tierType === "individual" && <S.TierName>개인</S.TierName>}
+          {tierType === "individual" && <S.TierName>{currentTier.name}</S.TierName>}
           <S.Points>{userPoints.toLocaleString()}P</S.Points>
         </S.ScoreInfo>
       </S.Box>
-      <S.ProgressBar fillPercentage={fillPercentage} />
+      <S.ProgressBar $fillPercentage={fillpercentage} />
     </S.Container>
   );
 };

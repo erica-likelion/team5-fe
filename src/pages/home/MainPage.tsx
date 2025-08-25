@@ -61,7 +61,6 @@ export const MainPage = () => {
   // 프로그레스바 색상: nextTier 있으면 강조색, 없으면 기본색
   const progressColor = (nextTier as any)?.color || (currentTier as any)?.color || "#42B68F";
 
-  const API_BASE_URL = import.meta.env.VITE_URL;
 
   return (
     <S.Container>

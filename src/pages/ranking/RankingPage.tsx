@@ -20,6 +20,7 @@ type UserInfo = {
 export function RankingPage() {
 
   const API_BASE_URL = import.meta.env.VITE_URL;
+  const ACCESS_TOKEN = "cc25e466-fc6c-4d24-8a63-6f3cba41cbd0";
 
   const [selectedRanking, setSelectedRanking] = useState<RankingType>('individual');
   const [rankingData, setRankingData] = useState<any[]>([]);
@@ -39,7 +40,7 @@ export function RankingPage() {
         const res = await axios.get(`${API_BASE_URL}/api/users/7`, {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("access_token")}`, // 저장된 토큰 사용
+            "Authorization": `Bearer ${ACCESS_TOKEN}`, // 고정된 토큰 사용
           },
         });
         const data = res.data?.data ?? res.data; // API 응답 구조에 따라

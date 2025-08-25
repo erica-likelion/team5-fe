@@ -98,7 +98,9 @@ export function HistoryPage() {
       const pairs = await Promise.all(
         anchors.map(async (a) => {
           const data = await buildWeeklyData(userId, a, { restrictToMonth: monthNum });
+          console.log('data', data);
           return { anchor: a, data };
+          
         })
       );
 

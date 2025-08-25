@@ -33,7 +33,7 @@ const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
 
   // 라인도 같은 값을 사용해 '추이' 느낌만 살림
   const chartData = (data.rewardsByDay ?? []).map(d => ({ ...d, trend: d.reward }));
-
+  
   return (
     <div className={styles.container}>
       {/* 상단 포인트 바 */}
@@ -96,7 +96,7 @@ const WeeklyReport = ({ data, totalPoints }: WeeklyReportProps) => {
         </div>
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>
-          <p>총 {data.totalCollections}회의 분리수거를 성공했어요.</p>
+          <p>총 {data.recyclingCount}회의 분리수거를 성공했어요.</p>
         </div>
         <div className={styles.summaryItem}>
           <div className={styles.dot}></div>

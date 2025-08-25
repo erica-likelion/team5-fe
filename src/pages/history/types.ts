@@ -23,6 +23,8 @@ export interface DailyActivity {
   activityDate: string; // 'YYYY-MM-DD'
   totalPoints: number;
   activitiesCount: number;
+  recyclingCount: number;
+  dailyActivity: number;
 }
 
 export interface WeeklyData {
@@ -30,7 +32,7 @@ export interface WeeklyData {
   week: number;
   rewardsByDay: { day: string; reward: number }[]; // 그래프용
   totalRewards: number;      // 주간 포인트 합
-  totalCollections: number;  // 주간 분리수거 횟수 합
+  recyclingCount: number;  // 주간 분리수거 횟수 합
   newBadge: string;          // 하드코딩
   remainingToNext: number;
   nextTierName?: string | null;

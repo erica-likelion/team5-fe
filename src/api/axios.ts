@@ -5,7 +5,7 @@ import axios from "axios";
 
 // 공통 axios 인스턴스
 const apiClient = axios.create({
-  baseURL: "https://pickle-back.o-r.kr", // 실제 서버 주소 작성
+  baseURL: 'https://pickle-back.o-r.kr', // 실제 서버 주소 작성
 });
 
 export default apiClient;

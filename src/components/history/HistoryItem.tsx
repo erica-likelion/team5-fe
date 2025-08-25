@@ -4,6 +4,7 @@
 // src/components/history/HistoryItem.tsx
 import React from 'react';
 import styles from './HistoryItem.module.css';
+import badgeIcon from '../../assets/badge.svg';
 
 // 새로운 API 응답에 맞춰 아이템 데이터의 타입을 정의합니다.
 interface ActivityItem {
@@ -23,7 +24,7 @@ const HistoryItem: React.FC<HistoryItemProps> = ({ item }) => {
   return (
     <div className={styles.itemContainer}>
       <img
-        src={item.icon}
+        src={badgeIcon}
         alt={`${item.title} 아이콘`} // alt 텍스트도 shopName에서 title로 변경
         className={styles.itemIcon}
       />

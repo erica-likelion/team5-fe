@@ -33,7 +33,7 @@ export function HistoryPage() {
   const [monthLoading, setMonthLoading] = useState(false);
   const [monthError, setMonthError] = useState<string|null>(null);
 
-  const userId = 8; // TODO: 실제 로그인 사용자 ID로 대체
+  const userId = 7; // TODO: 실제 로그인 사용자 ID로 대체
 
   
 
